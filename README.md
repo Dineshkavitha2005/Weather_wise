@@ -42,10 +42,23 @@ npx http-server
 
 4. Access the application at `http://localhost:8000` (or your server's port)
 
-### Demo Video
+## 📹 Demo Video
 
+https://github.com/user-attachments/assets/e1f6774c-2ffe-4eef-9e7a-9c3f995b7bc8
 
-https://github.com/user-attachments/assets/9a06e6c7-b20f-41f6-a3e4-d6375f3cc830
+## 📷 Screen Shots
+
+<img width="1868" height="907" alt="Screenshot 2026-02-26 184021" src="https://github.com/user-attachments/assets/2cfaeb7f-3898-489d-8db0-1c3975aa4f07" />
+<img width="1869" height="789" alt="Screenshot 2026-02-26 183931" src="https://github.com/user-attachments/assets/02410879-ad1c-497a-8b9c-29711b9afb2d" />
+<img width="1876" height="1008" alt="Screenshot 2026-02-26 183831" src="https://github.com/user-attachments/assets/5b334c6f-8acf-464c-a6f0-506ab07f38bb" />
+<img width="1889" height="1032" alt="Screenshot 2026-02-14 202550" src="https://github.com/user-attachments/assets/9fbc9242-3a6b-404a-bf43-6f617e98dcdb" />
+<img width="1207" height="1004" alt="Screenshot 2026-02-26 190505" src="https://github.com/user-attachments/assets/079b024c-2f60-4637-8514-4c4b2118bd70" />
+<img width="1320" height="1001" alt="Screenshot 2026-02-26 190440" src="https://github.com/user-attachments/assets/9a1f2f6c-101e-434b-9ce8-6be21e1d506a" />
+<img width="555" height="603" alt="Screenshot 2026-02-26 190416" src="https://github.com/user-attachments/assets/a7cfffdb-671d-4d24-ba40-85ed89bd6d9c" />
+<img width="198" height="395" alt="Screenshot 2026-02-26 190402" src="https://github.com/user-attachments/assets/ddc5ff5e-a1b6-4c49-ac2b-fa62bab99670" />
+<img width="1883" height="903" alt="Screenshot 2026-02-26 190344" src="https://github.com/user-attachments/assets/2b1c1e58-e292-47a6-9ed1-3b0e7252f2f1" />
+<img width="1870" height="911" alt="Screenshot 2026-02-26 190320" src="https://github.com/user-attachments/assets/3211f0ad-597a-4a32-b60b-b4e3f2285978" />
+<img width="1877" height="918" alt="Screenshot 2026-02-26 190157" src="https://github.com/user-attachments/assets/bfadf4cc-fd33-4eb3-bfd4-4f7a2b3a616f" />
 
 
 
