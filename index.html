@@ -265,7 +265,7 @@
                 <div class="map-controls-bar">
                     <div class="map-search">
                         <div class="map-search-input-wrapper">
-                            <input type="text" id="mapSearchInput" placeholder="Search location on map..." class="map-search-input" autocomplete="off">
+                            <input type="text" id="mapSearchInput" data-translate-placeholder="mapSearchPlaceholder" placeholder="Search location on map..." class="map-search-input" autocomplete="off">
                             <div class="map-suggestions-container" id="mapSuggestionsContainer">
                                 <ul class="suggestions-list" id="mapSuggestionsList"></ul>
                             </div>
@@ -292,13 +292,13 @@
                 <!-- Map Style Toggle -->
                 <div class="map-style-toggle">
                     <button class="map-style-btn active" data-style="standard" onclick="changeMapStyle('standard')">
-                        <i class="fas fa-map"></i> Standard
+                        <i class="fas fa-map"></i> <span data-translate="mapStandard">Standard</span>
                     </button>
                     <button class="map-style-btn" data-style="satellite" onclick="changeMapStyle('satellite')">
-                        <i class="fas fa-satellite"></i> Satellite
+                        <i class="fas fa-satellite"></i> <span data-translate="mapSatellite">Satellite</span>
                     </button>
                     <button class="map-style-btn" data-style="dark" onclick="changeMapStyle('dark')">
-                        <i class="fas fa-moon"></i> Dark
+                        <i class="fas fa-moon"></i> <span data-translate="mapDark">Dark</span>
                     </button>
                 </div>
                 

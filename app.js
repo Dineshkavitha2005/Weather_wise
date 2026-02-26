@@ -271,6 +271,11 @@ function applyLanguage() {
     } else {
         document.documentElement.dir = 'ltr';
     }
+    
+    // Update weather map translations (layer buttons and legend)
+    if (typeof updateMapTranslations === 'function') {
+        updateMapTranslations();
+    }
 }
 
 function changeLanguage(lang) {
@@ -446,15 +451,18 @@ async function fetchWeatherData(lat, lon) {
     showLoading();
     
     try {
+        // Get OWM API language code (some languages like Tamil are not supported)
+        const apiLang = typeof getOwmLangCode === 'function' ? getOwmLangCode(currentLang) : currentLang;
+        
         // Fetch current weather
         const currentResponse = await fetch(
-            `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=${currentLang}`
+            `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=${apiLang}`
         );
         weatherData = await currentResponse.json();
         
         // Fetch 5-day forecast (3-hour intervals)
         const forecastResponse = await fetch(
-            `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=${currentLang}`
+            `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=${apiLang}`
         );
         forecastData = await forecastResponse.json();
         
@@ -508,7 +516,13 @@ function updateCurrentWeather() {
     
     // Temperature
     elements.currentTemp.textContent = `${Math.round(weatherData.main.temp)}°C`;
-    elements.weatherDescription.textContent = weatherData.weather[0].description;
+    
+    // Translate weather description for unsupported languages
+    let weatherDesc = weatherData.weather[0].description;
+    if (typeof getWeatherDescription === 'function') {
+        weatherDesc = getWeatherDescription(weatherDesc, currentLang);
+    }
+    elements.weatherDescription.textContent = weatherDesc;
     
     // Details
     elements.feelsLike.textContent = `${Math.round(weatherData.main.feels_like)}°C`;
@@ -541,11 +555,17 @@ function updateHourlyForecast() {
         const time = new Date(item.dt * 1000);
         const isNow = index === 0;
         
+        // Translate weather description for unsupported languages
+        let hourlyDesc = item.weather[0].description;
+        if (typeof getWeatherDescription === 'function') {
+            hourlyDesc = getWeatherDescription(hourlyDesc, currentLang);
+        }
+        
         const hourlyItem = document.createElement('div');
         hourlyItem.className = `hourly-item ${isNow ? 'now' : ''}`;
         hourlyItem.innerHTML = `
             <div class="hourly-time">${isNow ? t.now : time.toLocaleTimeString(getLangCode(), { hour: '2-digit', minute: '2-digit' })}</div>
-            <img class="hourly-icon" src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="${item.weather[0].description}">
+            <img class="hourly-icon" src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="${hourlyDesc}">
             <div class="hourly-temp">${Math.round(item.main.temp)}°</div>
         `;
         elements.hourlyForecast.appendChild(hourlyItem);
@@ -594,6 +614,12 @@ function updateWeeklyForecast() {
         const dayName = index === 0 ? t.today : t[dayNames[day.date.getDay()]];
         const shortDay = t[shortDayNames[day.date.getDay()]];
         
+        // Translate weather description for unsupported languages
+        let forecastDesc = day.descriptions[0];
+        if (typeof getWeatherDescription === 'function') {
+            forecastDesc = getWeatherDescription(forecastDesc, currentLang);
+        }
+        
         const card = document.createElement('div');
         card.className = `forecast-card ${index === 0 ? 'today' : ''}`;
         card.innerHTML = `
@@ -604,7 +630,7 @@ function updateWeeklyForecast() {
                 <span class="temp-high">${maxTemp}°</span>
                 <span class="temp-low">${minTemp}°</span>
             </div>
-            <div class="forecast-condition">${day.descriptions[0]}</div>
+            <div class="forecast-condition">${forecastDesc}</div>
         `;
         elements.weeklyForecast.appendChild(card);
     });
@@ -871,17 +897,17 @@ function generateRecommendations() {
     
     // Activity recommendations
     if (temp >= 15 && temp <= 28 && !description.includes('rain')) {
-        recommendations.push({ icon: 'fa-person-walking', message: 'Great weather for outdoor activities!' });
+        recommendations.push({ icon: 'fa-person-walking', message: t.outdoorActivities || 'Great weather for outdoor activities!' });
     }
     
     // Health recommendations
     if (temp > 30 || humidity > 80) {
-        recommendations.push({ icon: 'fa-bottle-water', message: 'Stay hydrated! Drink plenty of water.' });
+        recommendations.push({ icon: 'fa-bottle-water', message: t.stayHydrated || 'Stay hydrated! Drink plenty of water.' });
     }
     
     // UV recommendations
     if (description.includes('clear') || description.includes('sun')) {
-        recommendations.push({ icon: 'fa-sun', message: 'Don\'t forget sunscreen if going outdoors!' });
+        recommendations.push({ icon: 'fa-sun', message: t.wearSunscreen || 'Don\'t forget sunscreen if going outdoors!' });
     }
     
     elements.aiRecommendations.innerHTML = recommendations.map(rec => `
@@ -1479,7 +1505,11 @@ function generateChatResponse(message) {
     }
     
     const temp = weatherData.main.temp;
-    const description = weatherData.weather[0].description;
+    // Translate weather description for unsupported languages
+    let description = weatherData.weather[0].description;
+    if (typeof getWeatherDescription === 'function') {
+        description = getWeatherDescription(description, currentLang);
+    }
     const humidity = weatherData.main.humidity;
     const city = extractedCity || weatherData.name;
     const feelsLike = weatherData.main.feels_like;
@@ -1562,6 +1592,7 @@ function getLangCode() {
 function estimateUVIndex(data) {
     const clouds = data.clouds.all;
     const hour = new Date().getHours();
+    const t = translations[currentLang];
     
     // Base UV based on time of day
     let baseUV;
@@ -1574,11 +1605,11 @@ function estimateUVIndex(data) {
     const cloudFactor = 1 - (clouds / 100) * 0.5;
     const uv = Math.round(baseUV * cloudFactor);
     
-    if (uv <= 2) return `${uv} (Low)`;
-    if (uv <= 5) return `${uv} (Moderate)`;
-    if (uv <= 7) return `${uv} (High)`;
-    if (uv <= 10) return `${uv} (Very High)`;
-    return `${uv} (Extreme)`;
+    if (uv <= 2) return `${uv} (${t.uvLow || 'Low'})`;
+    if (uv <= 5) return `${uv} (${t.uvModerate || 'Moderate'})`;
+    if (uv <= 7) return `${uv} (${t.uvHigh || 'High'})`;
+    if (uv <= 10) return `${uv} (${t.uvVeryHigh || 'Very High'})`;
+    return `${uv} (${t.uvExtreme || 'Extreme'})`;
 }
 
 function showLoading() {
