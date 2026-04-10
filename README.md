@@ -154,11 +154,3 @@ This project is open source and available under the [MIT License](LICENSE).
 - Icons and design inspiration from various open-source projects
 - Community contributors and testers
 
-## 📞 Support
-
-If you have any questions or need help with the application, please open an issue in the GitHub repository.
-
----
-
-⭐ Star this repository if you find it helpful!
-```
