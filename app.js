@@ -1,4 +1,4 @@
-// app.js - Main Application Logic for WeatherWise
+
 
 // API Configuration
 const API_KEY = '56557251d5db2189c685db5c677e77a9';
