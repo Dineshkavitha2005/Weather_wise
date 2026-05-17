@@ -1,5 +1,3 @@
-// translations.js - Multi-language support for WeatherWise
-
 const translations = {
     en: {
         appName: "WeatherWise",
