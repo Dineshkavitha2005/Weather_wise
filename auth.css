@@ -13,8 +13,6 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
-
-/* Animated Background */
 .auth-background {
     position: fixed;
     top: 0;
