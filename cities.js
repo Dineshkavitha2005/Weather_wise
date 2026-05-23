@@ -1,5 +1,4 @@
 // cities.js - Comprehensive list of cities and states worldwide
-
 const citiesDatabase = [
     // ==========================================
     // UNITED STATES - Major Cities & State Capitals
@@ -278,7 +277,6 @@ const citiesDatabase = [
     // Wyoming
     { name: "Cheyenne", state: "Wyoming", country: "US" },
     { name: "Casper", state: "Wyoming", country: "US" },
-
     // ==========================================
     // INDIA - Major Cities & State Capitals
     // ==========================================
