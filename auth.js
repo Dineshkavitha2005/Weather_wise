@@ -1,5 +1,4 @@
 // auth.js - Authentication Logic for WeatherWise
-
 // DOM Elements
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
@@ -8,13 +7,11 @@ const authSuccess = document.getElementById('authSuccess');
 const authTabs = document.querySelectorAll('.auth-tab');
 const strengthBar = document.getElementById('strengthBar');
 const toastContainer = document.getElementById('toastContainer');
-
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     checkExistingSession();
 });
-
 // Setup Event Listeners
 function setupEventListeners() {
     // Tab switching
