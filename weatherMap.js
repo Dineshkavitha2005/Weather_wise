@@ -1,5 +1,4 @@
 // weatherMap.js - Interactive Weather Map for WeatherWise
-
 // Map Configuration
 const MAP_CONFIG = {
     defaultCenter: [20, 0],
@@ -12,7 +11,6 @@ const MAP_CONFIG = {
         satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
     }
 };
-
 // OpenWeatherMap API Key
 const OWM_API_KEY = '56557251d5db2189c685db5c677e77a9';
 
