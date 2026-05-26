@@ -1,7 +1,5 @@
 # 🌤️ Weather Forecast
-
 A modern, feature-rich weather forecast web application built with vanilla JavaScript, HTML, and CSS. This application provides real-time weather information with a beautiful user interface, authentication system, and multi-language support.
-
 ## ✨ Features
 
 - **Real-Time Weather Data**: Get current weather conditions and forecasts for cities worldwide
