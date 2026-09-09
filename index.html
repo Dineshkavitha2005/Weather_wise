@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeatherWise - AI-Powered Weather Forecast</title>
+    <meta name="theme-color" content="#0277bd">
+    <meta name="description" content="WeatherWise provides current conditions, forecasts, weather maps, and useful weather insights.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for interactive maps -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="logo">
             <i class="fas fa-cloud-sun"></i>
@@ -49,7 +56,7 @@
                 <button id="themeToggle" class="btn-icon" title="Toggle Theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                
+                <!-- User Profile Section -->
                 <div class="user-profile-section" id="userProfileSection">
                     <button class="btn-icon user-avatar" id="userAvatarBtn" title="Account">
                         <i class="fas fa-user-circle"></i>
@@ -78,8 +85,10 @@
             </div>
         </nav>
     </header>
+
+    <!-- Main Content -->
     <main class="main-content">
-        
+        <!-- Current Weather Card -->
         <section class="current-weather-section">
             <div class="current-weather-card glass-card">
                 <div class="weather-main">
@@ -129,7 +138,7 @@
                 </div>
             </div>
             
-            
+            <!-- Sun & Moon Info -->
             <div class="sun-moon-card glass-card">
                 <h3><i class="fas fa-sun"></i> <span data-translate="sunMoon">Sun & Moon</span></h3>
                 <div class="sun-moon-info">
@@ -149,27 +158,27 @@
             </div>
         </section>
 
-        
+        <!-- 7-Day Forecast -->
         <section class="forecast-section">
             <div class="section-header">
                 <h2><i class="fas fa-calendar-week"></i> <span data-translate="sixDayForecast">6-Day Forecast</span></h2>
             </div>
             <div class="forecast-cards" id="weeklyForecast">
-                
+                <!-- Forecast cards will be dynamically generated -->
             </div>
         </section>
 
-        
+        <!-- Hourly Forecast -->
         <section class="hourly-section">
             <div class="section-header">
                 <h2><i class="fas fa-clock"></i> <span data-translate="hourlyForecast">24-Hour Forecast</span></h2>
             </div>
             <div class="hourly-scroll" id="hourlyForecast">
-                
+                <!-- Hourly forecast will be dynamically generated -->
             </div>
         </section>
 
-        
+        <!-- Monthly Weather Report -->
         <section class="monthly-section">
             <div class="section-header">
                 <h2><i class="fas fa-calendar-days"></i> <span data-translate="monthlyReport">Monthly Weather Report</span></h2>
@@ -180,7 +189,7 @@
                 </div>
             </div>
             <div class="monthly-calendar" id="monthlyCalendar">
-                
+                <!-- Monthly calendar will be dynamically generated -->
             </div>
             <div class="monthly-summary glass-card">
                 <h3 data-translate="monthlySummary">Monthly Summary</h3>
@@ -209,7 +218,7 @@
             </div>
         </section>
 
-        
+        <!-- AI Weather Prediction -->
         <section class="ai-prediction-section">
             <div class="section-header">
                 <h2><i class="fas fa-robot"></i> <span data-translate="aiPrediction">AI Weather Prediction</span></h2>
@@ -228,7 +237,7 @@
                     <div class="prediction-item">
                         <h4><i class="fas fa-calendar-plus"></i> <span data-translate="extendedForecast">Extended Forecast (2 Weeks)</span></h4>
                         <div id="extendedForecast" class="extended-forecast-grid">
-                            
+                            <!-- Extended forecast will be generated -->
                         </div>
                     </div>
                     <div class="prediction-item">
@@ -244,20 +253,20 @@
                     <div class="prediction-item">
                         <h4><i class="fas fa-shirt"></i> <span data-translate="recommendations">Recommendations</span></h4>
                         <div id="aiRecommendations" class="recommendations-list">
-                            
+                            <!-- Recommendations will be generated -->
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        
+        <!-- Weather Maps -->
         <section class="maps-section">
             <div class="section-header">
                 <h2><i class="fas fa-map"></i> <span data-translate="weatherMaps">Weather Maps</span></h2>
             </div>
             <div class="weather-map-wrapper glass-card">
-                
+                <!-- Map Controls -->
                 <div class="map-controls-bar">
                     <div class="map-search">
                         <div class="map-search-input-wrapper">
@@ -280,12 +289,12 @@
                     </div>
                 </div>
                 
-                
+                <!-- Weather Layer Controls -->
                 <div class="map-layer-controls" id="mapLayerControls">
-                    
+                    <!-- Layer buttons will be generated by JavaScript -->
                 </div>
                 
-                
+                <!-- Map Style Toggle -->
                 <div class="map-style-toggle">
                     <button class="map-style-btn active" data-style="standard" onclick="changeMapStyle('standard')">
                         <i class="fas fa-map"></i> <span data-translate="mapStandard">Standard</span>
@@ -298,18 +307,18 @@
                     </button>
                 </div>
                 
-                
+                <!-- Interactive Map Container -->
                 <div id="weatherMapContainer" class="interactive-map"></div>
                 
-                
+                <!-- Map Legend -->
                 <div class="map-legend" id="mapLegend">
-                    
+                    <!-- Legend will be generated by JavaScript -->
                 </div>
             </div>
         </section>
     </main>
 
-    
+    <!-- AI Chatbot -->
     <div class="chatbot-container" id="chatbotContainer">
         <div class="chatbot-tooltip" id="chatbotTooltip">
             <div class="tooltip-title"><i class="fas fa-robot"></i> AI Weather Assistant</div>
@@ -376,7 +385,7 @@
         </div>
     </div>
 
-    
+    <!-- Voice Assistant Overlay -->
     <div class="voice-overlay" id="voiceOverlay">
         <div class="voice-content">
             <div class="voice-animation">
@@ -390,7 +399,7 @@
         </div>
     </div>
 
-    
+    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="weather-loader">
@@ -400,15 +409,20 @@
         </div>
     </div>
 
-    
+    <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script src="config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="translations.js"></script>
     <script src="cities.js"></script>
-    
+    <script src="locationUtils.js"></script>
+    <!-- Leaflet JS for interactive maps -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="weatherMap.js"></script>
+    <script src="weatherUtils.js"></script>
+    <script src="pwa.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

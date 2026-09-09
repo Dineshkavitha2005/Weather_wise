@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeatherWise - Login / Sign Up</title>
+    <meta name="theme-color" content="#0277bd">
+    <meta name="description" content="Sign in to WeatherWise, your AI-powered weather companion.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,7 +23,7 @@
     </style>
 </head>
 <body class="auth-body">
-    
+    <!-- Animated Background -->
     <div class="auth-background">
         <div class="weather-animation">
             <div class="cloud cloud-1"><i class="fas fa-cloud"></i></div>
@@ -34,15 +39,18 @@
             </div>
         </div>
     </div>
+
+    <!-- Auth Container -->
     <div class="auth-container">
         <div class="auth-card glass-card">
-            
+            <!-- Logo -->
             <div class="auth-logo">
                 <i class="fas fa-cloud-sun"></i>
                 <h1>WeatherWise</h1>
                 <p>Your AI-Powered Weather Companion</p>
             </div>
-            
+
+            <!-- Tab Switcher -->
             <div class="auth-tabs">
                 <button class="auth-tab active" data-tab="login">
                     <i class="fas fa-sign-in-alt"></i> Login
@@ -52,7 +60,7 @@
                 </button>
             </div>
 
-            
+            <!-- Login Form -->
             <form class="auth-form active" id="loginForm">
                 <div class="form-group">
                     <label for="loginEmail">
@@ -106,7 +114,7 @@
                 </div>
             </form>
 
-            
+            <!-- Sign Up Form -->
             <form class="auth-form" id="signupForm">
                 <div class="form-row">
                     <div class="form-group">
@@ -205,7 +213,7 @@
                 </div>
             </form>
 
-            
+            <!-- Forgot Password Form -->
             <form class="auth-form" id="forgotForm">
                 <div class="back-btn" onclick="showLoginForm()">
                     <i class="fas fa-arrow-left"></i> Back to Login
@@ -230,7 +238,7 @@
                 </button>
             </form>
 
-            
+            <!-- Success Message -->
             <div class="auth-success" id="authSuccess">
                 <div class="success-icon">
                     <i class="fas fa-check-circle"></i>
@@ -243,7 +251,7 @@
             </div>
         </div>
 
-        
+        <!-- Features Section -->
         <div class="auth-features">
             <h3>Why Create an Account?</h3>
             <div class="feature-list">
@@ -275,9 +283,13 @@
         </div>
     </div>
 
-    
+    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <script src="config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="pwa.js"></script>
     <script src="auth.js"></script>
 </body>
 </html>

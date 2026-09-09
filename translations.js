@@ -1,3 +1,5 @@
+// translations.js - Multi-language support for WeatherWise
+
 const translations = {
     en: {
         appName: "WeatherWise",
@@ -77,6 +79,7 @@ const translations = {
         successLocation: "Location detected!",
         voiceNotSupported: "Voice recognition is not supported in your browser.",
         speakNotSupported: "Text-to-speech is not supported in your browser.",
+        // AI Chatbot responses
         weatherGood: "The weather looks great today! Perfect for outdoor activities.",
         weatherRain: "It might rain today. Don't forget to bring an umbrella!",
         weatherCold: "It's quite cold outside. Make sure to dress warmly!",
@@ -93,11 +96,13 @@ const translations = {
         uvHigh: "High",
         uvVeryHigh: "Very High",
         uvExtreme: "Extreme",
+        // Auth translations
         login: "Login",
         signup: "Sign Up",
         logout: "Logout",
         logoutSuccess: "Logged out successfully!",
         welcomeBack: "Welcome back!",
+        // Map translations
         mapSearchPlaceholder: "Search location on map...",
         mapStandard: "Standard",
         mapSatellite: "Satellite",
@@ -190,6 +195,7 @@ const translations = {
         wearHot: "Ropa ligera y transpirable. Â¡No olvides el protector solar!",
         wearRain: "Chaqueta impermeable y botas serÃ­an buena opciÃ³n.",
         wearMild: "Ropa casual cÃ³moda. QuizÃ¡s una chaqueta ligera.",
+        // Map translations
         mapSearchPlaceholder: "Buscar ubicaciÃ³n en el mapa...",
         mapStandard: "EstÃ¡ndar",
         mapSatellite: "SatÃ©lite",
@@ -282,6 +288,7 @@ const translations = {
         wearHot: "VÃªtements lÃ©gers et respirants. N'oubliez pas la crÃ¨me solaire!",
         wearRain: "Une veste impermÃ©able et des bottes seraient un bon choix.",
         wearMild: "Des vÃªtements dÃ©contractÃ©s confortables. Peut-Ãªtre une veste lÃ©gÃ¨re.",
+        // Map translations
         mapSearchPlaceholder: "Rechercher un lieu sur la carte...",
         mapStandard: "Standard",
         mapSatellite: "Satellite",
@@ -374,6 +381,7 @@ const translations = {
         wearHot: "Leichte, atmungsaktive Kleidung. Sonnenschutz nicht vergessen!",
         wearRain: "Eine wasserdichte Jacke und Stiefel wÃ¤ren eine gute Wahl.",
         wearMild: "Bequeme Freizeitkleidung. Vielleicht eine leichte Jacke.",
+        // Map translations
         mapSearchPlaceholder: "Ort auf der Karte suchen...",
         mapStandard: "Standard",
         mapSatellite: "Satellit",
@@ -466,6 +474,7 @@ const translations = {
         wearHot: "à¤¹à¤²à¥à¤•à¥‡, à¤¸à¤¾à¤‚à¤¸ à¤²à¥‡à¤¨à¥‡ à¤¯à¥‹à¤—à¥à¤¯ à¤•à¤ªà¤¡à¤¼à¥‡ à¤ªà¤¹à¤¨à¥‡à¤‚à¥¤ à¤¸à¤¨à¤¸à¥à¤•à¥à¤°à¥€à¤¨ à¤¨ à¤­à¥‚à¤²à¥‡à¤‚!",
         wearRain: "à¤µà¤¾à¤Ÿà¤°à¤ªà¥à¤°à¥‚à¤« à¤œà¥ˆà¤•à¥‡à¤Ÿ à¤”à¤° à¤¬à¥‚à¤Ÿ à¤…à¤šà¥à¤›à¥‡ à¤°à¤¹à¥‡à¤‚à¤—à¥‡à¥¤",
         wearMild: "à¤†à¤°à¤¾à¤®à¤¦à¤¾à¤¯à¤• à¤•à¤ªà¤¡à¤¼à¥‡ à¤ªà¤¹à¤¨à¥‡à¤‚à¥¤ à¤¶à¤¾à¤¯à¤¦ à¤à¤• à¤¹à¤²à¥à¤•à¥€ à¤œà¥ˆà¤•à¥‡à¤Ÿà¥¤",
+        // Map translations
         mapSearchPlaceholder: "à¤¨à¤•à¥à¤¶à¥‡ à¤ªà¤° à¤¸à¥à¤¥à¤¾à¤¨ à¤–à¥‹à¤œà¥‡à¤‚...",
         mapStandard: "à¤®à¤¾à¤¨à¤•",
         mapSatellite: "à¤‰à¤ªà¤—à¥à¤°à¤¹",
@@ -656,6 +665,7 @@ const translations = {
         wearHot: "ç©¿è½»ä¾¿é€æ°”çš„è¡£æœã€‚åˆ«å¿˜äº†é˜²æ™’ï¼",
         wearRain: "é˜²æ°´å¤¹å…‹å’Œé´å­æ˜¯ä¸é”™çš„é€‰æ‹©ã€‚",
         wearMild: "èˆ’é€‚çš„ä¼‘é—²è£…ã€‚å¯èƒ½éœ€è¦ä¸€ä»¶è½»ä¾¿å¤–å¥—ã€‚",
+        // Map translations
         mapSearchPlaceholder: "åœ¨åœ°å›¾ä¸Šæœç´¢ä½ç½®...",
         mapStandard: "æ ‡å‡†",
         mapSatellite: "å«æ˜Ÿ",
@@ -746,6 +756,7 @@ const translations = {
         wearHot: "Ù…Ù„Ø§Ø¨Ø³ Ø®ÙÙŠÙØ© ÙˆÙ…Ø±ÙŠØ­Ø©. Ù„Ø§ ØªÙ†Ø³ÙŽ ÙˆØ§Ù‚ÙŠ Ø§Ù„Ø´Ù…Ø³!",
         wearRain: "Ø³ØªØ±Ø© Ù…Ù‚Ø§ÙˆÙ…Ø© Ù„Ù„Ù…Ø§Ø¡ ÙˆØ£Ø­Ø°ÙŠØ© Ø³ØªÙƒÙˆÙ† Ø§Ø®ØªÙŠØ§Ø±Ø§Ù‹ Ø¬ÙŠØ¯Ø§Ù‹.",
         wearMild: "Ù…Ù„Ø§Ø¨Ø³ Ù…Ø±ÙŠØ­Ø© Ø¹Ø§Ø¯ÙŠØ©. Ø±Ø¨Ù…Ø§ Ø³ØªØ±Ø© Ø®ÙÙŠÙØ©.",
+        // Map translations
         mapSearchPlaceholder: "Ø§Ø¨Ø­Ø« Ø¹Ù† Ù…ÙˆÙ‚Ø¹ Ø¹Ù„Ù‰ Ø§Ù„Ø®Ø±ÙŠØ·Ø©...",
         mapStandard: "Ù‚ÙŠØ§Ø³ÙŠ",
         mapSatellite: "Ù‚Ù…Ø± ØµÙ†Ø§Ø¹ÙŠ",
@@ -838,6 +849,7 @@ const translations = {
         wearHot: "Roupas leves e respirÃ¡veis. NÃ£o esqueÃ§a o protetor solar!",
         wearRain: "Jaqueta impermeÃ¡vel e botas seriam uma boa escolha.",
         wearMild: "Roupas casuais confortÃ¡veis. Talvez uma jaqueta leve.",
+        // Map translations
         mapSearchPlaceholder: "Pesquisar local no mapa...",
         mapStandard: "PadrÃ£o",
         mapSatellite: "SatÃ©lite",
@@ -928,6 +940,7 @@ const translations = {
         wearHot: "è»½ãã¦é€šæ°—æ€§ã®è‰¯ã„æœã‚’ã€‚æ—¥ç„¼ã‘æ­¢ã‚ã‚‚å¿˜ã‚Œãšã«ï¼",
         wearRain: "é˜²æ°´ã‚¸ãƒ£ã‚±ãƒƒãƒˆã¨ãƒ–ãƒ¼ãƒ„ãŒã„ã„ã§ã—ã‚‡ã†ã€‚",
         wearMild: "å¿«é©ãªã‚«ã‚¸ãƒ¥ã‚¢ãƒ«ã‚¦ã‚§ã‚¢ã§ã€‚è»½ã„ã‚¸ãƒ£ã‚±ãƒƒãƒˆã‚‚ã‚ã‚‹ã¨ã„ã„ã‹ã‚‚ã€‚",
+        // Map translations
         mapSearchPlaceholder: "åœ°å›³ä¸Šã§å ´æ‰€ã‚’æ¤œç´¢...",
         mapStandard: "æ¨™æº–",
         mapSatellite: "è¡›æ˜Ÿ",
@@ -936,6 +949,50 @@ const translations = {
     }
 };
 
+// Repair strings that were previously decoded as Latin-1 instead of UTF-8.
+function repairMojibake(value) {
+    if (typeof value !== 'string' || !/[ÃÂÐ-ßà-ÿ]/.test(value)) {
+        return value;
+    }
+
+    const windows1252 = {
+        '€': 0x80, '‚': 0x82, 'ƒ': 0x83, '„': 0x84, '…': 0x85,
+        '†': 0x86, '‡': 0x87, 'ˆ': 0x88, '‰': 0x89, 'Š': 0x8a,
+        '‹': 0x8b, 'Œ': 0x8c, 'Ž': 0x8e, '‘': 0x91, '’': 0x92,
+        '“': 0x93, '”': 0x94, '•': 0x95, '–': 0x96, '—': 0x97,
+        '˜': 0x98, '™': 0x99, 'š': 0x9a, '›': 0x9b, 'œ': 0x9c,
+        'ž': 0x9e, 'Ÿ': 0x9f
+    };
+    const bytes = Uint8Array.from(value, character => {
+        const code = character.charCodeAt(0);
+        return windows1252[character] ?? (code & 0xff);
+    });
+    const repaired = new TextDecoder('utf-8').decode(bytes);
+    return repaired.includes('\ufffd') ? value : repaired;
+}
+
+function normalizeTranslationValues(value) {
+    if (Array.isArray(value)) {
+        return value.map(normalizeTranslationValues);
+    }
+    if (value && typeof value === 'object') {
+        Object.keys(value).forEach(key => {
+            value[key] = normalizeTranslationValues(value[key]);
+        });
+    }
+    return repairMojibake(value);
+}
+
+normalizeTranslationValues(translations);
+Object.keys(translations).forEach(language => {
+    translations[language] = Object.assign({}, translations.en, translations[language]);
+});
+
+function getTranslations(language = 'en') {
+    return translations[language] || translations.en;
+}
+
+// Language codes for speech synthesis
 const speechLangCodes = {
     en: 'en-US',
     es: 'es-ES',
@@ -949,8 +1006,10 @@ const speechLangCodes = {
     ja: 'ja-JP'
 };
 
+// City name translations - COMPREHENSIVE DATABASE
 const cityTranslations = {
     'en': {
+        // Major Indian Cities
         'Delhi': 'Delhi', 'Mumbai': 'Mumbai', 'Bangalore': 'Bangalore', 'Hyderabad': 'Hyderabad',
         'Chennai': 'Chennai', 'Kolkata': 'Kolkata', 'Pune': 'Pune', 'Jaipur': 'Jaipur',
         'Ahmedabad': 'Ahmedabad', 'Lucknow': 'Lucknow', 'Chandigarh': 'Chandigarh', 'Indore': 'Indore',
@@ -970,6 +1029,7 @@ const cityTranslations = {
         'Ooty': 'Ooty', 'Kodaikanal': 'Kodaikanal', 'Yercaud': 'Yercaud', 'Hosur': 'Hosur',
         'Shillong': 'Shillong', 'Cherrapunji': 'Cherrapunji', 'Aizawl': 'Aizawl', 'Imphal': 'Imphal',
         'Jammu': 'Jammu', 'Srinagar': 'Srinagar', 'Leh': 'Leh', 'Kargil': 'Kargil',
+        // Tamil Nadu cities
         'Tiruchirappalli': 'திருச்சிராப்பள்ளி', 'Trichy': 'திருச்சி', 'Coimbatore': 'கோயம்புத்தூர்',
         'Salem': 'சேலம்', 'Madurai': 'மதுரை', 'Tirunelveli': 'திருநெல்வேலி', 'Erode': 'ஈரோடு',
         'Vellore': 'வேலூர்', 'Thanjavur': 'தஞ்சாவூர்', 'Dindigul': 'திண்டுக்கல்', 'Tiruppur': 'திருப்பூர்',
@@ -986,6 +1046,7 @@ const cityTranslations = {
         'Tiruchirappalli': 'Tiruchirappalli', 'Trichy': 'Trichy', 'Coimbatore': 'Coimbatore',
         'Salem': 'Salem', 'Madurai': 'Madurai', 'Tirunelveli': 'Tirunelveli', 'Erode': 'Erode',
         'Vellore': 'Vellore', 'Thanjavur': 'Thanjavur', 'Dindigul': 'Dindigul', 'Tiruppur': 'Tiruppur',
+        // World Cities
         'London': 'London', 'New York': 'New York', 'Tokyo': 'Tokyo', 'Paris': 'Paris',
         'Dubai': 'Dubai', 'Singapore': 'Singapore', 'Hong Kong': 'Hong Kong', 'Bangkok': 'Bangkok',
         'Moscow': 'Moscow', 'Berlin': 'Berlin', 'Madrid': 'Madrid', 'Rome': 'Rome', 'Amsterdam': 'Amsterdam',
@@ -996,6 +1057,7 @@ const cityTranslations = {
         'Chicago': 'Chicago', 'Boston': 'Boston', 'Miami': 'Miami', 'Las Vegas': 'Las Vegas'
     },
     'hi': {
+        // Major Indian Cities
         'Delhi': 'à¤¦à¤¿à¤²à¥à¤²à¥€', 'Mumbai': 'à¤®à¥à¤‚à¤¬à¤ˆ', 'Bangalore': 'à¤¬à¥‡à¤‚à¤—à¤²à¥à¤°à¥', 'Hyderabad': 'à¤¹à¥ˆà¤¦à¤°à¤¾à¤¬à¤¾à¤¦',
         'Chennai': 'à¤šà¥‡à¤¨à¥à¤¨à¤ˆ', 'Kolkata': 'à¤•à¥‹à¤²à¤•à¤¾à¤¤à¤¾', 'Pune': 'à¤ªà¥à¤£à¥‡', 'Jaipur': 'à¤œà¤¯à¤ªà¥à¤°',
         'Ahmedabad': 'à¤…à¤¹à¤®à¤¦à¤¾à¤¬à¤¾à¤¦', 'Lucknow': 'à¤²à¤–à¤¨à¤Š', 'Chandigarh': 'à¤šà¤‚à¤¡à¥€à¤—à¤¢à¤¼', 'Indore': 'à¤‡à¤‚à¤¦à¥Œà¤°',
@@ -1015,6 +1077,7 @@ const cityTranslations = {
         'Yercaud': 'à¤¯à¥‡à¤°à¤•à¥Œà¤¡', 'Hosur': 'à¤¹à¥‹à¤¸à¥à¤°', 'Shillong': 'à¤¶à¤¿à¤²à¤¾à¤‚à¤—', 'Cherrapunji': 'à¤šà¥‡à¤°à¤¾à¤ªà¥‚à¤‚à¤œà¥€',
         'Aizawl': 'à¤†à¤‡à¤œà¥‹à¤²', 'Imphal': 'à¤‡à¤‚à¤«à¤¾à¤²', 'Jammu': 'à¤œà¤®à¥à¤®à¥‚', 'Srinagar': 'à¤¶à¥à¤°à¥€à¤¨à¤—à¤°',
         'Leh': 'à¤²à¥‡à¤¹', 'Kargil': 'à¤•à¤¾à¤°à¤—à¤¿à¤²',
+        // Tamil Nadu cities
         'Tiruchirappalli': 'திருச்சிராப்பள்ளி', 'Trichy': 'திருச்சி', 'Coimbatore': 'கோயம்புத்தூர்',
         'Salem': 'சேலம்', 'Madurai': 'மதுரை', 'Tirunelveli': 'திருநெல்வேலி', 'Erode': 'ஈரோடு',
         'Vellore': 'வேலூர்', 'Thanjavur': 'தஞ்சாவூர்', 'Dindigul': 'திண்டுக்கல்', 'Tiruppur': 'திருப்பூர்',
@@ -1031,6 +1094,7 @@ const cityTranslations = {
         'Tiruchirappalli': 'à¤¤à¤¿à¤°à¥à¤šà¤¿à¤°à¤¾à¤ªà¤²à¥à¤²à¥€', 'Trichy': 'à¤¤à¤¿à¤°à¥à¤šà¥à¤šà¤¿', 'Coimbatore': 'à¤•à¥‹à¤¯à¤‚à¤¬à¤¤à¥‚à¤°',
         'Salem': 'à¤¸à¥‡à¤²à¤®', 'Madurai': 'à¤®à¤¦à¥à¤°à¥ˆ', 'Tirunelveli': 'à¤¤à¤¿à¤°à¥à¤¨à¥‡à¤²à¤µà¥‡à¤²à¥€', 'Erode': 'à¤ˆà¤°à¥‹à¤¡',
         'Vellore': 'à¤µà¥‡à¤²à¥à¤²à¥‹à¤°', 'Thanjavur': 'à¤¤à¤‚à¤œà¤¾à¤µà¥‚à¤°', 'Dindigul': 'à¤¡à¤¿à¤‚à¤¡à¤¿à¤—à¥à¤²', 'Tiruppur': 'à¤¤à¤¿à¤°à¥à¤ªà¥à¤ªà¥‚à¤°',
+        // World Cities
         'London': 'à¤²à¤‚à¤¦à¤¨', 'New York': 'à¤¨à¥à¤¯à¥‚à¤¯à¥‰à¤°à¥à¤•', 'Tokyo': 'à¤Ÿà¥‹à¤•à¥à¤¯à¥‹', 'Paris': 'à¤ªà¥‡à¤°à¤¿à¤¸',
         'Dubai': 'à¤¦à¥à¤¬à¤ˆ', 'Singapore': 'à¤¸à¤¿à¤‚à¤—à¤¾à¤ªà¥à¤°', 'Hong Kong': 'à¤¹à¤¾à¤‚à¤—à¤•à¤¾à¤‚à¤—', 'Bangkok': 'à¤¬à¥ˆà¤‚à¤•à¤¾à¤•',
         'Moscow': 'à¤®à¥‰à¤¸à¥à¤•à¥‹', 'Berlin': 'à¤¬à¤°à¥à¤²à¤¿à¤¨', 'Madrid': 'à¤®à¥ˆà¤¡à¥à¤°à¤¿à¤¡', 'Rome': 'à¤°à¥‹à¤®', 'Amsterdam': 'à¤à¤®à¥à¤¸à¤Ÿà¤°à¥à¤¡à¤®',
@@ -1041,6 +1105,7 @@ const cityTranslations = {
         'Chicago': 'à¤¶à¤¿à¤•à¤¾à¤—à¥‹', 'Boston': 'à¤¬à¥‹à¤¸à¥à¤Ÿà¤¨', 'Miami': 'à¤®à¤¿à¤†à¤®à¥€', 'Las Vegas': 'à¤²à¤¾à¤¸ à¤µà¥‡à¤—à¤¾à¤¸'
     },
     'ta': {
+        // Major Indian Cities
         'Delhi': 'டெல்லி', 'Mumbai': 'மும்பை', 'Bangalore': 'பெங்களூர்', 'Hyderabad': 'ஹைதராபாத்',
         'Chennai': 'சென்னை', 'Kolkata': 'கொல்கத்தா', 'Pune': 'பூனே', 'Jaipur': 'ஜெய்ப்பூர்',
         'Ahmedabad': 'அகமதாபாத்', 'Lucknow': 'லக்னோ', 'Chandigarh': 'சண்டிகர்', 'Indore': 'இந்தோர்',
@@ -1060,6 +1125,7 @@ const cityTranslations = {
         'Yercaud': 'யேர்காடு', 'Hosur': 'ஹோசூர்', 'Shillong': 'ஷில்லாங்', 'Cherrapunji': 'சேரபுஞ்சி',
         'Aizawl': 'ஐசோல்', 'Imphal': 'இம்பால்', 'Jammu': 'ஜம்மு', 'Srinagar': 'ஸ்ரீநகர்',
         'Leh': 'லே', 'Kargil': 'கார்கில்',
+        // Tamil Nadu cities
         'Tiruchirappalli': 'திருச்சிராப்பள்ளி', 'Trichy': 'திருச்சி', 'Coimbatore': 'கோயம்புத்தூர்',
         'Salem': 'சேலம்', 'Madurai': 'மதுரை', 'Tirunelveli': 'திருநெல்வேலி', 'Erode': 'ஈரோடு',
         'Vellore': 'வேலூர்', 'Thanjavur': 'தஞ்சாவூர்', 'Dindigul': 'திண்டுக்கல்', 'Tiruppur': 'திருப்பூர்',
@@ -1073,6 +1139,7 @@ const cityTranslations = {
         'Srirangam': 'ஸ்ரீரங்கம்', 'Palani': 'பழனி', 'Kanyakumari': 'கன்னியாகுமரி',
         'Mahabalipuram': 'மாமல்லபுரம்', 'Arakkonam': 'அரக்கோணம்', 'Ranipet': 'ராணிப்பேட்',
         'Tiruttani': 'திருத்தணி', 'Ambur': 'ஆம்பூர்',
+        // World Cities
         'London': 'லண்டன்', 'New York': 'நியூயார்க்', 'Tokyo': 'டோக்கியோ', 'Paris': 'பாரிஸ்',
         'Dubai': 'துபாய்', 'Singapore': 'சிங்கப்பூர்', 'Hong Kong': 'ஹாங்காங்', 'Bangkok': 'பாங்காக்',
         'Moscow': 'மாஸ்கோ', 'Berlin': 'பெர்லின்', 'Madrid': 'மாட்ரிட்', 'Rome': 'ரோம்', 'Amsterdam': 'ஆம்ஸ்டர்டம்',
@@ -1083,11 +1150,14 @@ const cityTranslations = {
         'Chicago': 'சிகாகோ', 'Boston': 'பாஸ்டன்', 'Miami': 'மியாமி', 'Las Vegas': 'லாஸ் வேகாஸ்'
     },
     'es': {
+        // Major Indian Cities
         'Delhi': 'Delhi', 'Mumbai': 'Bombay', 'Bangalore': 'Bangalore', 'Hyderabad': 'Hyderabad',
         'Chennai': 'Chennai', 'Kolkata': 'Calcuta', 'Pune': 'Pune', 'Jaipur': 'Jaipur',
         'Ahmedabad': 'Ahmedabad', 'Lucknow': 'Lucknow', 'Chandigarh': 'Chandigarh', 'Indore': 'Indore',
+        // Additional Indian cities...
         'London': 'Londres', 'New York': 'Nueva York', 'Tokyo': 'Tokio', 'Paris': 'ParÃ­s',
         'Dubai': 'DubÃ¡i', 'Singapore': 'Singapur', 'Hong Kong': 'Hong Kong', 'Bangkok': 'Bangkok',
+        // More world cities...
     },
     'fr': {
         'Delhi': 'Delhi', 'Mumbai': 'Mumbai', 'Bangalore': 'Bangalore', 'Hyderabad': 'Hyderabad',
@@ -1127,6 +1197,9 @@ const cityTranslations = {
     }
 };
 
+normalizeTranslationValues(cityTranslations);
+
+// Function to get translated city name
 function getCityName(cityName, lang = 'en') {
     if (cityTranslations[lang] && cityTranslations[lang][cityName]) {
         return cityTranslations[lang][cityName];
@@ -1134,6 +1207,8 @@ function getCityName(cityName, lang = 'en') {
     return cityName; // Return original if no translation found
 }
 
+// OpenWeatherMap API language codes mapping
+// Some languages (like Tamil) are not supported by OWM, so we use English
 const owmLangCodes = {
     en: 'en',
     es: 'es',
@@ -1147,13 +1222,16 @@ const owmLangCodes = {
     ja: 'ja'
 };
 
+// Weather description translations for languages not supported by OpenWeatherMap
 const weatherDescriptions = {
     ta: {
+        // Clear
         'clear sky': 'தெளிவான வானம்',
         'few clouds': 'சில மேகங்கள்',
         'scattered clouds': 'சிதறிய மேகங்கள்',
         'broken clouds': 'உடைந்த மேகங்கள்',
         'overcast clouds': 'மேகமூட்டம்',
+        // Rain
         'light rain': 'லேசான மழை',
         'moderate rain': 'மிதமான மழை',
         'heavy rain': 'கனமழை',
@@ -1165,6 +1243,7 @@ const weatherDescriptions = {
         'shower rain': 'மழைத்தூறல்',
         'heavy intensity shower rain': 'கனமான மழைத்தூறல்',
         'ragged shower rain': 'சிதறிய மழைத்தூறல்',
+        // Drizzle
         'light intensity drizzle': 'லேசான தூறல்',
         'drizzle': 'தூறல்',
         'heavy intensity drizzle': 'கனமான தூறல்',
@@ -1174,6 +1253,7 @@ const weatherDescriptions = {
         'shower rain and drizzle': 'மழைத்தூறல் மற்றும் தூறல்',
         'heavy shower rain and drizzle': 'கனமான மழைத்தூறல் மற்றும் தூறல்',
         'shower drizzle': 'தூறல் மழை',
+        // Thunderstorm
         'thunderstorm with light rain': 'லேசான மழையுடன் இடியுடன் கூடிய மழை',
         'thunderstorm with rain': 'மழையுடன் இடியுடன் கூடிய மழை',
         'thunderstorm with heavy rain': 'கனமழையுடன் இடியுடன் கூடிய மழை',
@@ -1184,6 +1264,7 @@ const weatherDescriptions = {
         'thunderstorm with light drizzle': 'லேசான தூறலுடன் இடியுடன் கூடிய மழை',
         'thunderstorm with drizzle': 'தூறலுடன் இடியுடன் கூடிய மழை',
         'thunderstorm with heavy drizzle': 'கனமான தூறலுடன் இடியுடன் கூடிய மழை',
+        // Snow
         'light snow': 'லேசான பனி',
         'snow': 'பனி',
         'heavy snow': 'கனமான பனி',
@@ -1195,6 +1276,7 @@ const weatherDescriptions = {
         'light shower snow': 'லேசான பனி தூறல்',
         'shower snow': 'பனி தூறல்',
         'heavy shower snow': 'கனமான பனி தூறல்',
+        // Atmosphere
         'mist': 'மூடுபனி',
         'smoke': 'புகை',
         'haze': 'மூடுபனி',
@@ -1208,6 +1290,7 @@ const weatherDescriptions = {
     }
 };
 
+// Function to get translated weather description
 function getWeatherDescription(description, lang = 'en') {
     if (lang === 'en') return description;
     
@@ -1217,13 +1300,16 @@ function getWeatherDescription(description, lang = 'en') {
         return weatherDescriptions[lang][lowerDesc];
     }
     
+    // Return original if no translation found
     return description;
 }
 
+// Function to get OWM API language code
 function getOwmLangCode(appLang) {
     return owmLangCodes[appLang] || 'en';
 }
 
+// Export for use in app.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { translations, speechLangCodes, cityTranslations, getCityName, owmLangCodes, weatherDescriptions, getWeatherDescription, getOwmLangCode };
 }

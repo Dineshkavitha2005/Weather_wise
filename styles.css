@@ -1,6 +1,11 @@
+/* ========================================
+   WeatherWise - CSS Styles
+   AI-Powered Weather Forecast Application
+   ======================================== */
 
+/* CSS Variables for Theming */
 :root {
-    
+    /* Light Theme Colors - Clean & Visible */
     --bg-primary: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #e1f5fe 100%);
     --bg-secondary: #ffffff;
     --bg-card: rgba(255, 255, 255, 0.98);
@@ -19,7 +24,7 @@
     --danger: #c62828;
     --info: #0288d1;
     
-    
+    /* Spacing */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -27,20 +32,20 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
     
-    
+    /* Border Radius */
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
     --radius-xl: 30px;
     --radius-full: 50%;
     
-    
+    /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;
 }
 
-
+/* Dark Theme - Deep Ocean */
 [data-theme="dark"] {
     --bg-primary: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #274472 100%);
     --bg-secondary: #0d1b2a;
@@ -57,7 +62,7 @@
     --shadow-strong: rgba(0, 0, 0, 0.5);
 }
 
-
+/* Reset & Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -66,6 +71,8 @@
 
 html {
     scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -75,9 +82,10 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    width: 100%;
 }
 
-
+/* Background Animation */
 body::before {
     content: '';
     position: fixed;
@@ -100,7 +108,7 @@ body::after {
     z-index: -1;
 }
 
-
+/* Glass Card Effect */
 .glass-card {
     background: var(--bg-glass);
     backdrop-filter: blur(20px);
@@ -116,7 +124,9 @@ body::after {
     box-shadow: 0 12px 40px var(--shadow-strong);
 }
 
-
+/* ========================================
+   Header Styles
+   ======================================== */
 .header {
     position: sticky;
     top: 0;
@@ -132,6 +142,7 @@ body::after {
     flex-wrap: wrap;
     gap: var(--spacing-md);
     box-shadow: 0 2px 10px var(--shadow-color);
+    width: 100%;
 }
 
 .logo {
@@ -158,6 +169,7 @@ body::after {
     align-items: center;
     gap: var(--spacing-lg);
     flex-wrap: wrap;
+    min-width: 0;
 }
 
 .search-container {
@@ -169,6 +181,8 @@ body::after {
     padding: var(--spacing-xs) var(--spacing-sm);
     gap: var(--spacing-xs);
     transition: all var(--transition-fast);
+    min-width: 0;
+    max-width: 100%;
 }
 
 .search-container:focus-within {
@@ -215,7 +229,7 @@ body::after {
     box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.95) inset !important;
 }
 
-
+/* Suggestions Dropdown */
 .suggestions-container {
     position: absolute;
     top: 100%;
@@ -328,7 +342,7 @@ body::after {
     opacity: 0.5;
 }
 
-
+/* Recent Searches Styles */
 .suggestions-header {
     padding: 8px 15px;
     font-size: 0.75rem;
@@ -453,14 +467,18 @@ body::after {
     color: var(--text-primary);
 }
 
-
+/* ========================================
+   Main Content
+   ======================================== */
 .main-content {
     padding: var(--spacing-xl);
     max-width: 1400px;
     margin: 0 auto;
+    width: 100%;
+    min-width: 0;
 }
 
-
+/* Section Headers */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -482,12 +500,15 @@ body::after {
     color: var(--accent-primary);
 }
 
-
+/* ========================================
+   Current Weather Section
+   ======================================== */
 .current-weather-section {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: var(--spacing-xl);
     margin-bottom: var(--spacing-2xl);
+    min-width: 0;
 }
 
 .current-weather-card {
@@ -579,7 +600,7 @@ body::after {
     color: var(--text-primary);
 }
 
-
+/* Sun & Moon Card */
 .sun-moon-card {
     padding: var(--spacing-lg);
 }
@@ -625,7 +646,9 @@ body::after {
     color: var(--text-primary);
 }
 
-
+/* ========================================
+   7-Day Forecast
+   ======================================== */
 .forecast-section {
     margin-bottom: var(--spacing-2xl);
 }
@@ -634,6 +657,7 @@ body::after {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: var(--spacing-md);
+    min-width: 0;
 }
 
 .forecast-card {
@@ -698,7 +722,9 @@ body::after {
     text-transform: capitalize;
 }
 
-
+/* ========================================
+   Hourly Forecast
+   ======================================== */
 .hourly-section {
     margin-bottom: var(--spacing-2xl);
 }
@@ -710,6 +736,7 @@ body::after {
     padding: var(--spacing-md) 0;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    max-width: 100%;
 }
 
 .hourly-scroll::-webkit-scrollbar {
@@ -769,7 +796,9 @@ body::after {
     margin-top: var(--spacing-sm);
 }
 
-
+/* ========================================
+   Monthly Calendar
+   ======================================== */
 .monthly-section {
     margin-bottom: var(--spacing-2xl);
 }
@@ -786,6 +815,7 @@ body::after {
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
     margin-bottom: var(--spacing-lg);
+    max-width: 100%;
 }
 
 .calendar-header {
@@ -883,7 +913,9 @@ body::after {
     color: var(--text-primary);
 }
 
-
+/* ========================================
+   AI Prediction Section
+   ======================================== */
 .ai-prediction-section {
     margin-bottom: var(--spacing-2xl);
 }
@@ -1039,7 +1071,9 @@ body::after {
     justify-content: center;
 }
 
-
+/* ========================================
+   Weather Maps - Interactive Leaflet Map
+   ======================================== */
 .maps-section {
     margin-bottom: var(--spacing-2xl);
 }
@@ -1049,7 +1083,7 @@ body::after {
     position: relative;
 }
 
-
+/* Map Controls Bar */
 .map-controls-bar {
     display: flex;
     justify-content: space-between;
@@ -1113,7 +1147,7 @@ body::after {
     box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.95) inset !important;
 }
 
-
+/* Dark mode search input visibility */
 [data-theme="dark"] .search-container input {
     color: #1a1a1a;
     caret-color: #1a1a1a;
@@ -1133,7 +1167,7 @@ body::after {
     color: #999999;
 }
 
-
+/* Map Suggestions */
 .map-suggestions-container {
     position: absolute;
     top: 100%;
@@ -1240,7 +1274,7 @@ body::after {
     color: white;
 }
 
-
+/* Map Layer Controls */
 .map-layer-controls {
     display: flex;
     gap: var(--spacing-sm);
@@ -1277,7 +1311,7 @@ body::after {
     font-size: 1rem;
 }
 
-
+/* Map Style Toggle */
 .map-style-toggle {
     display: flex;
     gap: var(--spacing-sm);
@@ -1309,7 +1343,7 @@ body::after {
     color: white;
 }
 
-
+/* Interactive Map Container */
 .interactive-map {
     width: 100%;
     height: 500px;
@@ -1318,7 +1352,7 @@ body::after {
     z-index: 1;
 }
 
-
+/* Custom Map Markers */
 .weather-marker-container {
     background: transparent !important;
     border: none !important;
@@ -1353,7 +1387,7 @@ body::after {
     50% { transform: scale(1.05); }
 }
 
-
+/* Map Popup Styles */
 .map-popup {
     padding: var(--spacing-sm);
     min-width: 200px;
@@ -1413,7 +1447,7 @@ body::after {
     color: var(--accent-primary);
 }
 
-
+/* Leaflet Popup Overrides */
 .leaflet-popup-content-wrapper {
     background: var(--bg-card);
     border-radius: var(--radius-md);
@@ -1428,7 +1462,7 @@ body::after {
     margin: 10px;
 }
 
-
+/* Map Legend */
 .map-legend {
     position: absolute;
     bottom: 30px;
@@ -1470,7 +1504,7 @@ body::after {
     border-radius: 3px;
 }
 
-
+/* Map Toast */
 .map-toast {
     position: absolute;
     top: 80px;
@@ -1497,7 +1531,7 @@ body::after {
     100% { opacity: 0; transform: translate(-50%, -10px); }
 }
 
-
+/* Fullscreen Map Styles */
 .weather-map-wrapper:fullscreen {
     background: var(--bg-primary);
     padding: var(--spacing-xl);
@@ -1507,7 +1541,9 @@ body::after {
     height: calc(100vh - 200px);
 }
 
-
+/* ========================================
+   User Profile Section
+   ======================================== */
 .user-profile-section {
     position: relative;
 }
@@ -1588,7 +1624,9 @@ body::after {
     text-align: center;
 }
 
-
+/* ========================================
+   Chatbot Styles
+   ======================================== */
 .chatbot-container {
     position: fixed;
     bottom: var(--spacing-xl);
@@ -1596,7 +1634,7 @@ body::after {
     z-index: 1000;
 }
 
-
+/* Chatbot Tooltip */
 .chatbot-tooltip {
     position: absolute;
     bottom: 75px;
@@ -1801,6 +1839,22 @@ body::after {
     position: relative;
 }
 
+.loading-message .message-content {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.loading-message .message-content p::after {
+    content: ' ...';
+    animation: loadingDots 1.2s steps(3, end) infinite;
+}
+
+@keyframes loadingDots {
+    0%, 20% { content: ' .'; }
+    40% { content: ' ..'; }
+    60%, 100% { content: ' ...'; }
+}
+
 .user-message .message-content {
     background: var(--accent-gradient);
     color: white;
@@ -1869,7 +1923,9 @@ body::after {
     border-color: var(--accent-primary);
 }
 
-
+/* ========================================
+   Voice Overlay
+   ======================================== */
 .voice-overlay {
     position: fixed;
     top: 0;
@@ -1940,7 +1996,9 @@ body::after {
     background: rgba(255, 255, 255, 0.3);
 }
 
-
+/* ========================================
+   Loading Overlay
+   ======================================== */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -1968,7 +2026,9 @@ body::after {
     margin-bottom: var(--spacing-lg);
 }
 
-
+/* ========================================
+   Toast Notifications
+   ======================================== */
 .toast-container {
     position: fixed;
     top: var(--spacing-xl);
@@ -2008,7 +2068,43 @@ body::after {
 .toast.warning { border-left: 4px solid var(--warning); }
 .toast.info { border-left: 4px solid var(--info); }
 
+/* PWA install prompt */
+.install-prompt {
+    position: fixed;
+    right: var(--spacing-lg);
+    bottom: var(--spacing-lg);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    max-width: min(420px, calc(100vw - 2rem));
+    padding: var(--spacing-md) var(--spacing-lg);
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 32px var(--shadow-strong);
+}
 
+.install-prompt[hidden] { display: none; }
+.install-prompt-content { flex: 1; }
+.install-prompt-title { display: block; margin-bottom: 0.15rem; font-weight: 600; }
+.install-prompt-copy { color: var(--text-muted); font-size: 0.85rem; }
+.install-prompt-actions { display: flex; align-items: center; gap: var(--spacing-sm); }
+.install-prompt-install,
+.install-prompt-dismiss {
+    border: 0;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font: inherit;
+    padding: 0.55rem 0.8rem;
+}
+.install-prompt-install { color: white; background: var(--accent-primary); font-weight: 600; }
+.install-prompt-dismiss { color: var(--text-muted); background: transparent; }
+
+/* ========================================
+   Footer
+   ======================================== */
 .footer {
     text-align: center;
     padding: var(--spacing-xl);
@@ -2016,7 +2112,9 @@ body::after {
     font-size: 0.9rem;
 }
 
-
+/* ========================================
+   Responsive Design
+   ======================================== */
 @media (max-width: 1024px) {
     .current-weather-section {
         grid-template-columns: 1fr;
@@ -2031,24 +2129,44 @@ body::after {
 @media (max-width: 768px) {
     .header {
         padding: var(--spacing-md);
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .logo {
+        justify-content: center;
     }
     
     .nav-controls {
         width: 100%;
-        justify-content: center;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-sm);
     }
     
     .search-container {
-        flex: 1;
-        max-width: 100%;
+        width: 100%;
     }
     
     .search-container input {
         width: 100%;
-        min-width: 150px;
+        min-width: 0;
+    }
+
+    .controls {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
     }
     
     .main-content {
+        padding: var(--spacing-md);
+    }
+
+    .current-weather-card,
+    .sun-moon-card,
+    .weather-map-wrapper,
+    .ai-prediction-card {
         padding: var(--spacing-md);
     }
     
@@ -2073,6 +2191,23 @@ body::after {
         min-height: 60px;
         padding: var(--spacing-xs);
     }
+
+    .map-search,
+    .map-actions {
+        width: 100%;
+    }
+
+    .map-actions {
+        justify-content: flex-end;
+    }
+
+    .map-style-toggle {
+        flex-direction: column;
+    }
+
+    .map-style-btn {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2082,6 +2217,33 @@ body::after {
     
     .controls {
         gap: var(--spacing-sm);
+    }
+
+    .current-weather-card {
+        padding: var(--spacing-sm);
+    }
+
+    .weather-main {
+        gap: var(--spacing-md);
+    }
+
+    .location-info,
+    .temperature-display {
+        width: 100%;
+    }
+
+    .location-info h1 {
+        font-size: 1.6rem;
+        overflow-wrap: anywhere;
+    }
+
+    .temperature-display {
+        justify-content: center;
+    }
+
+    .weather-details,
+    .summary-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     
     .select-styled {
@@ -2096,6 +2258,10 @@ body::after {
     .forecast-card {
         padding: var(--spacing-sm);
     }
+
+    .forecast-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     
     .chatbot-container {
         bottom: var(--spacing-md);
@@ -2104,12 +2270,12 @@ body::after {
     
     .chatbot-window {
         bottom: 70px;
-        right: -10px;
+        right: 0;
         width: calc(100vw - var(--spacing-md) * 2);
     }
 }
 
-
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
@@ -2117,7 +2283,7 @@ body::after {
     }
 }
 
-
+/* Focus styles for accessibility */
 button:focus,
 input:focus,
 select:focus {
@@ -2125,7 +2291,7 @@ select:focus {
     outline-offset: 2px;
 }
 
-
+/* High contrast mode */
 @media (prefers-contrast: high) {
     .glass-card {
         background: var(--bg-card);
@@ -2133,7 +2299,7 @@ select:focus {
     }
 }
 
-
+/* User Initial Avatar */
 .user-initial {
     display: flex;
     align-items: center;
@@ -2144,13 +2310,13 @@ select:focus {
     text-transform: uppercase;
 }
 
-
+/* Logged in user avatar */
 .user-avatar.logged-in {
     background: var(--accent-gradient) !important;
     color: white !important;
 }
 
-
+/* Map responsive styles */
 @media (max-width: 768px) {
     .map-controls-bar {
         flex-direction: column;

@@ -1,19 +1,29 @@
+// cities.js - Comprehensive list of cities and states worldwide
+
 const citiesDatabase = [
+    // ==========================================
+    // UNITED STATES - Major Cities & State Capitals
+    // ==========================================
+    // Alabama
     { name: "Birmingham", state: "Alabama", country: "US" },
     { name: "Montgomery", state: "Alabama", country: "US" },
     { name: "Huntsville", state: "Alabama", country: "US" },
     { name: "Mobile", state: "Alabama", country: "US" },
+    // Alaska
     { name: "Anchorage", state: "Alaska", country: "US" },
     { name: "Juneau", state: "Alaska", country: "US" },
     { name: "Fairbanks", state: "Alaska", country: "US" },
+    // Arizona
     { name: "Phoenix", state: "Arizona", country: "US" },
     { name: "Tucson", state: "Arizona", country: "US" },
     { name: "Mesa", state: "Arizona", country: "US" },
     { name: "Scottsdale", state: "Arizona", country: "US" },
     { name: "Tempe", state: "Arizona", country: "US" },
+    // Arkansas
     { name: "Little Rock", state: "Arkansas", country: "US" },
     { name: "Fort Smith", state: "Arkansas", country: "US" },
     { name: "Fayetteville", state: "Arkansas", country: "US" },
+    // California
     { name: "Los Angeles", state: "California", country: "US" },
     { name: "San Francisco", state: "California", country: "US" },
     { name: "San Diego", state: "California", country: "US" },
@@ -34,17 +44,21 @@ const citiesDatabase = [
     { name: "Beverly Hills", state: "California", country: "US" },
     { name: "Pasadena", state: "California", country: "US" },
     { name: "Palo Alto", state: "California", country: "US" },
+    // Colorado
     { name: "Denver", state: "Colorado", country: "US" },
     { name: "Colorado Springs", state: "Colorado", country: "US" },
     { name: "Aurora", state: "Colorado", country: "US" },
     { name: "Boulder", state: "Colorado", country: "US" },
     { name: "Fort Collins", state: "Colorado", country: "US" },
+    // Connecticut
     { name: "Hartford", state: "Connecticut", country: "US" },
     { name: "New Haven", state: "Connecticut", country: "US" },
     { name: "Stamford", state: "Connecticut", country: "US" },
     { name: "Bridgeport", state: "Connecticut", country: "US" },
+    // Delaware
     { name: "Dover", state: "Delaware", country: "US" },
     { name: "Wilmington", state: "Delaware", country: "US" },
+    // Florida
     { name: "Miami", state: "Florida", country: "US" },
     { name: "Orlando", state: "Florida", country: "US" },
     { name: "Tampa", state: "Florida", country: "US" },
@@ -57,90 +71,113 @@ const citiesDatabase = [
     { name: "Cape Coral", state: "Florida", country: "US" },
     { name: "Pensacola", state: "Florida", country: "US" },
     { name: "West Palm Beach", state: "Florida", country: "US" },
+    // Georgia
     { name: "Atlanta", state: "Georgia", country: "US" },
     { name: "Savannah", state: "Georgia", country: "US" },
     { name: "Augusta", state: "Georgia", country: "US" },
     { name: "Columbus", state: "Georgia", country: "US" },
     { name: "Macon", state: "Georgia", country: "US" },
+    // Hawaii
     { name: "Honolulu", state: "Hawaii", country: "US" },
     { name: "Hilo", state: "Hawaii", country: "US" },
     { name: "Kailua", state: "Hawaii", country: "US" },
+    // Idaho
     { name: "Boise", state: "Idaho", country: "US" },
     { name: "Meridian", state: "Idaho", country: "US" },
     { name: "Nampa", state: "Idaho", country: "US" },
+    // Illinois
     { name: "Chicago", state: "Illinois", country: "US" },
     { name: "Springfield", state: "Illinois", country: "US" },
     { name: "Aurora", state: "Illinois", country: "US" },
     { name: "Naperville", state: "Illinois", country: "US" },
     { name: "Rockford", state: "Illinois", country: "US" },
     { name: "Peoria", state: "Illinois", country: "US" },
+    // Indiana
     { name: "Indianapolis", state: "Indiana", country: "US" },
     { name: "Fort Wayne", state: "Indiana", country: "US" },
     { name: "Evansville", state: "Indiana", country: "US" },
     { name: "South Bend", state: "Indiana", country: "US" },
+    // Iowa
     { name: "Des Moines", state: "Iowa", country: "US" },
     { name: "Cedar Rapids", state: "Iowa", country: "US" },
     { name: "Davenport", state: "Iowa", country: "US" },
+    // Kansas
     { name: "Wichita", state: "Kansas", country: "US" },
     { name: "Topeka", state: "Kansas", country: "US" },
     { name: "Kansas City", state: "Kansas", country: "US" },
     { name: "Overland Park", state: "Kansas", country: "US" },
+    // Kentucky
     { name: "Louisville", state: "Kentucky", country: "US" },
     { name: "Lexington", state: "Kentucky", country: "US" },
     { name: "Frankfort", state: "Kentucky", country: "US" },
     { name: "Bowling Green", state: "Kentucky", country: "US" },
+    // Louisiana
     { name: "New Orleans", state: "Louisiana", country: "US" },
     { name: "Baton Rouge", state: "Louisiana", country: "US" },
     { name: "Shreveport", state: "Louisiana", country: "US" },
     { name: "Lafayette", state: "Louisiana", country: "US" },
+    // Maine
     { name: "Portland", state: "Maine", country: "US" },
     { name: "Augusta", state: "Maine", country: "US" },
     { name: "Bangor", state: "Maine", country: "US" },
+    // Maryland
     { name: "Baltimore", state: "Maryland", country: "US" },
     { name: "Annapolis", state: "Maryland", country: "US" },
     { name: "Frederick", state: "Maryland", country: "US" },
     { name: "Rockville", state: "Maryland", country: "US" },
+    // Massachusetts
     { name: "Boston", state: "Massachusetts", country: "US" },
     { name: "Cambridge", state: "Massachusetts", country: "US" },
     { name: "Worcester", state: "Massachusetts", country: "US" },
     { name: "Springfield", state: "Massachusetts", country: "US" },
     { name: "Salem", state: "Massachusetts", country: "US" },
+    // Michigan
     { name: "Detroit", state: "Michigan", country: "US" },
     { name: "Grand Rapids", state: "Michigan", country: "US" },
     { name: "Lansing", state: "Michigan", country: "US" },
     { name: "Ann Arbor", state: "Michigan", country: "US" },
     { name: "Flint", state: "Michigan", country: "US" },
+    // Minnesota
     { name: "Minneapolis", state: "Minnesota", country: "US" },
     { name: "St. Paul", state: "Minnesota", country: "US" },
     { name: "Rochester", state: "Minnesota", country: "US" },
     { name: "Duluth", state: "Minnesota", country: "US" },
+    // Mississippi
     { name: "Jackson", state: "Mississippi", country: "US" },
     { name: "Gulfport", state: "Mississippi", country: "US" },
     { name: "Biloxi", state: "Mississippi", country: "US" },
+    // Missouri
     { name: "Kansas City", state: "Missouri", country: "US" },
     { name: "St. Louis", state: "Missouri", country: "US" },
     { name: "Jefferson City", state: "Missouri", country: "US" },
     { name: "Springfield", state: "Missouri", country: "US" },
+    // Montana
     { name: "Billings", state: "Montana", country: "US" },
     { name: "Helena", state: "Montana", country: "US" },
     { name: "Missoula", state: "Montana", country: "US" },
+    // Nebraska
     { name: "Omaha", state: "Nebraska", country: "US" },
     { name: "Lincoln", state: "Nebraska", country: "US" },
+    // Nevada
     { name: "Las Vegas", state: "Nevada", country: "US" },
     { name: "Reno", state: "Nevada", country: "US" },
     { name: "Carson City", state: "Nevada", country: "US" },
     { name: "Henderson", state: "Nevada", country: "US" },
+    // New Hampshire
     { name: "Manchester", state: "New Hampshire", country: "US" },
     { name: "Concord", state: "New Hampshire", country: "US" },
     { name: "Nashua", state: "New Hampshire", country: "US" },
+    // New Jersey
     { name: "Newark", state: "New Jersey", country: "US" },
     { name: "Jersey City", state: "New Jersey", country: "US" },
     { name: "Trenton", state: "New Jersey", country: "US" },
     { name: "Atlantic City", state: "New Jersey", country: "US" },
     { name: "Paterson", state: "New Jersey", country: "US" },
+    // New Mexico
     { name: "Albuquerque", state: "New Mexico", country: "US" },
     { name: "Santa Fe", state: "New Mexico", country: "US" },
     { name: "Las Cruces", state: "New Mexico", country: "US" },
+    // New York
     { name: "New York City", state: "New York", country: "US" },
     { name: "Manhattan", state: "New York", country: "US" },
     { name: "Brooklyn", state: "New York", country: "US" },
@@ -150,43 +187,54 @@ const citiesDatabase = [
     { name: "Rochester", state: "New York", country: "US" },
     { name: "Syracuse", state: "New York", country: "US" },
     { name: "Yonkers", state: "New York", country: "US" },
+    // North Carolina
     { name: "Charlotte", state: "North Carolina", country: "US" },
     { name: "Raleigh", state: "North Carolina", country: "US" },
     { name: "Greensboro", state: "North Carolina", country: "US" },
     { name: "Durham", state: "North Carolina", country: "US" },
     { name: "Winston-Salem", state: "North Carolina", country: "US" },
+    // North Dakota
     { name: "Fargo", state: "North Dakota", country: "US" },
     { name: "Bismarck", state: "North Dakota", country: "US" },
+    // Ohio
     { name: "Columbus", state: "Ohio", country: "US" },
     { name: "Cleveland", state: "Ohio", country: "US" },
     { name: "Cincinnati", state: "Ohio", country: "US" },
     { name: "Toledo", state: "Ohio", country: "US" },
     { name: "Akron", state: "Ohio", country: "US" },
     { name: "Dayton", state: "Ohio", country: "US" },
+    // Oklahoma
     { name: "Oklahoma City", state: "Oklahoma", country: "US" },
     { name: "Tulsa", state: "Oklahoma", country: "US" },
     { name: "Norman", state: "Oklahoma", country: "US" },
+    // Oregon
     { name: "Portland", state: "Oregon", country: "US" },
     { name: "Salem", state: "Oregon", country: "US" },
     { name: "Eugene", state: "Oregon", country: "US" },
+    // Pennsylvania
     { name: "Philadelphia", state: "Pennsylvania", country: "US" },
     { name: "Pittsburgh", state: "Pennsylvania", country: "US" },
     { name: "Harrisburg", state: "Pennsylvania", country: "US" },
     { name: "Allentown", state: "Pennsylvania", country: "US" },
     { name: "Erie", state: "Pennsylvania", country: "US" },
+    // Rhode Island
     { name: "Providence", state: "Rhode Island", country: "US" },
     { name: "Warwick", state: "Rhode Island", country: "US" },
+    // South Carolina
     { name: "Charleston", state: "South Carolina", country: "US" },
     { name: "Columbia", state: "South Carolina", country: "US" },
     { name: "Greenville", state: "South Carolina", country: "US" },
     { name: "Myrtle Beach", state: "South Carolina", country: "US" },
+    // South Dakota
     { name: "Sioux Falls", state: "South Dakota", country: "US" },
     { name: "Pierre", state: "South Dakota", country: "US" },
     { name: "Rapid City", state: "South Dakota", country: "US" },
+    // Tennessee
     { name: "Nashville", state: "Tennessee", country: "US" },
     { name: "Memphis", state: "Tennessee", country: "US" },
     { name: "Knoxville", state: "Tennessee", country: "US" },
     { name: "Chattanooga", state: "Tennessee", country: "US" },
+    // Texas
     { name: "Houston", state: "Texas", country: "US" },
     { name: "Dallas", state: "Texas", country: "US" },
     { name: "San Antonio", state: "Texas", country: "US" },
@@ -199,29 +247,42 @@ const citiesDatabase = [
     { name: "Laredo", state: "Texas", country: "US" },
     { name: "Lubbock", state: "Texas", country: "US" },
     { name: "Irving", state: "Texas", country: "US" },
+    // Utah
     { name: "Salt Lake City", state: "Utah", country: "US" },
     { name: "Provo", state: "Utah", country: "US" },
     { name: "West Valley City", state: "Utah", country: "US" },
+    // Vermont
     { name: "Burlington", state: "Vermont", country: "US" },
     { name: "Montpelier", state: "Vermont", country: "US" },
+    // Virginia
     { name: "Virginia Beach", state: "Virginia", country: "US" },
     { name: "Richmond", state: "Virginia", country: "US" },
     { name: "Norfolk", state: "Virginia", country: "US" },
     { name: "Arlington", state: "Virginia", country: "US" },
     { name: "Alexandria", state: "Virginia", country: "US" },
+    // Washington
     { name: "Seattle", state: "Washington", country: "US" },
     { name: "Spokane", state: "Washington", country: "US" },
     { name: "Tacoma", state: "Washington", country: "US" },
     { name: "Olympia", state: "Washington", country: "US" },
     { name: "Bellevue", state: "Washington", country: "US" },
+    // Washington D.C.
     { name: "Washington", state: "D.C.", country: "US" },
+    // West Virginia
     { name: "Charleston", state: "West Virginia", country: "US" },
     { name: "Huntington", state: "West Virginia", country: "US" },
+    // Wisconsin
     { name: "Milwaukee", state: "Wisconsin", country: "US" },
     { name: "Madison", state: "Wisconsin", country: "US" },
     { name: "Green Bay", state: "Wisconsin", country: "US" },
+    // Wyoming
     { name: "Cheyenne", state: "Wyoming", country: "US" },
     { name: "Casper", state: "Wyoming", country: "US" },
+
+    // ==========================================
+    // INDIA - Major Cities & State Capitals
+    // ==========================================
+    // Andhra Pradesh
     { name: "Hyderabad", state: "Telangana", country: "India" },
     { name: "Visakhapatnam", state: "Andhra Pradesh", country: "India" },
     { name: "Vijayawada", state: "Andhra Pradesh", country: "India" },
@@ -231,20 +292,26 @@ const citiesDatabase = [
     { name: "Rajahmundry", state: "Andhra Pradesh", country: "India" },
     { name: "Nellore", state: "Andhra Pradesh", country: "India" },
     { name: "Kakinada", state: "Andhra Pradesh", country: "India" },
+    // Arunachal Pradesh
     { name: "Itanagar", state: "Arunachal Pradesh", country: "India" },
+    // Assam
     { name: "Guwahati", state: "Assam", country: "India" },
     { name: "Dispur", state: "Assam", country: "India" },
     { name: "Silchar", state: "Assam", country: "India" },
+    // Bihar
     { name: "Patna", state: "Bihar", country: "India" },
     { name: "Gaya", state: "Bihar", country: "India" },
     { name: "Muzaffarpur", state: "Bihar", country: "India" },
     { name: "Bhagalpur", state: "Bihar", country: "India" },
+    // Chhattisgarh
     { name: "Raipur", state: "Chhattisgarh", country: "India" },
     { name: "Bilaspur", state: "Chhattisgarh", country: "India" },
     { name: "Bhilai", state: "Chhattisgarh", country: "India" },
+    // Goa
     { name: "Panaji", state: "Goa", country: "India" },
     { name: "Margao", state: "Goa", country: "India" },
     { name: "Vasco da Gama", state: "Goa", country: "India" },
+    // Gujarat
     { name: "Ahmedabad", state: "Gujarat", country: "India" },
     { name: "Surat", state: "Gujarat", country: "India" },
     { name: "Vadodara", state: "Gujarat", country: "India" },
@@ -252,6 +319,7 @@ const citiesDatabase = [
     { name: "Gandhinagar", state: "Gujarat", country: "India" },
     { name: "Bhavnagar", state: "Gujarat", country: "India" },
     { name: "Jamnagar", state: "Gujarat", country: "India" },
+    // Haryana
     { name: "Chandigarh", state: "Haryana", country: "India" },
     { name: "Faridabad", state: "Haryana", country: "India" },
     { name: "Gurgaon", state: "Haryana", country: "India" },
@@ -260,14 +328,17 @@ const citiesDatabase = [
     { name: "Ambala", state: "Haryana", country: "India" },
     { name: "Karnal", state: "Haryana", country: "India" },
     { name: "Rohtak", state: "Haryana", country: "India" },
+    // Himachal Pradesh
     { name: "Shimla", state: "Himachal Pradesh", country: "India" },
     { name: "Dharamshala", state: "Himachal Pradesh", country: "India" },
     { name: "Manali", state: "Himachal Pradesh", country: "India" },
     { name: "Kullu", state: "Himachal Pradesh", country: "India" },
+    // Jharkhand
     { name: "Ranchi", state: "Jharkhand", country: "India" },
     { name: "Jamshedpur", state: "Jharkhand", country: "India" },
     { name: "Dhanbad", state: "Jharkhand", country: "India" },
     { name: "Bokaro", state: "Jharkhand", country: "India" },
+    // Karnataka
     { name: "Bengaluru", state: "Karnataka", country: "India" },
     { name: "Bangalore", state: "Karnataka", country: "India" },
     { name: "Mysuru", state: "Karnataka", country: "India" },
@@ -276,6 +347,7 @@ const citiesDatabase = [
     { name: "Hubli", state: "Karnataka", country: "India" },
     { name: "Belgaum", state: "Karnataka", country: "India" },
     { name: "Dharwad", state: "Karnataka", country: "India" },
+    // Kerala
     { name: "Thiruvananthapuram", state: "Kerala", country: "India" },
     { name: "Kochi", state: "Kerala", country: "India" },
     { name: "Cochin", state: "Kerala", country: "India" },
@@ -285,11 +357,13 @@ const citiesDatabase = [
     { name: "Kollam", state: "Kerala", country: "India" },
     { name: "Kannur", state: "Kerala", country: "India" },
     { name: "Alappuzha", state: "Kerala", country: "India" },
+    // Madhya Pradesh
     { name: "Bhopal", state: "Madhya Pradesh", country: "India" },
     { name: "Indore", state: "Madhya Pradesh", country: "India" },
     { name: "Gwalior", state: "Madhya Pradesh", country: "India" },
     { name: "Jabalpur", state: "Madhya Pradesh", country: "India" },
     { name: "Ujjain", state: "Madhya Pradesh", country: "India" },
+    // Maharashtra
     { name: "Mumbai", state: "Maharashtra", country: "India" },
     { name: "Pune", state: "Maharashtra", country: "India" },
     { name: "Nagpur", state: "Maharashtra", country: "India" },
@@ -299,21 +373,28 @@ const citiesDatabase = [
     { name: "Solapur", state: "Maharashtra", country: "India" },
     { name: "Kolhapur", state: "Maharashtra", country: "India" },
     { name: "Navi Mumbai", state: "Maharashtra", country: "India" },
+    // Manipur
     { name: "Imphal", state: "Manipur", country: "India" },
+    // Meghalaya
     { name: "Shillong", state: "Meghalaya", country: "India" },
+    // Mizoram
     { name: "Aizawl", state: "Mizoram", country: "India" },
+    // Nagaland
     { name: "Kohima", state: "Nagaland", country: "India" },
     { name: "Dimapur", state: "Nagaland", country: "India" },
+    // Odisha
     { name: "Bhubaneswar", state: "Odisha", country: "India" },
     { name: "Cuttack", state: "Odisha", country: "India" },
     { name: "Puri", state: "Odisha", country: "India" },
     { name: "Rourkela", state: "Odisha", country: "India" },
+    // Punjab
     { name: "Chandigarh", state: "Punjab", country: "India" },
     { name: "Ludhiana", state: "Punjab", country: "India" },
     { name: "Amritsar", state: "Punjab", country: "India" },
     { name: "Jalandhar", state: "Punjab", country: "India" },
     { name: "Patiala", state: "Punjab", country: "India" },
     { name: "Bathinda", state: "Punjab", country: "India" },
+    // Rajasthan
     { name: "Jaipur", state: "Rajasthan", country: "India" },
     { name: "Jodhpur", state: "Rajasthan", country: "India" },
     { name: "Udaipur", state: "Rajasthan", country: "India" },
@@ -321,7 +402,9 @@ const citiesDatabase = [
     { name: "Ajmer", state: "Rajasthan", country: "India" },
     { name: "Bikaner", state: "Rajasthan", country: "India" },
     { name: "Jaisalmer", state: "Rajasthan", country: "India" },
+    // Sikkim
     { name: "Gangtok", state: "Sikkim", country: "India" },
+    // Tamil Nadu
     { name: "Chennai", state: "Tamil Nadu", country: "India" },
     { name: "Coimbatore", state: "Tamil Nadu", country: "India" },
     { name: "Madurai", state: "Tamil Nadu", country: "India" },
@@ -337,11 +420,14 @@ const citiesDatabase = [
     { name: "Nagercoil", state: "Tamil Nadu", country: "India" },
     { name: "Kanchipuram", state: "Tamil Nadu", country: "India" },
     { name: "Pondicherry", state: "Puducherry", country: "India" },
+    // Telangana
     { name: "Hyderabad", state: "Telangana", country: "India" },
     { name: "Warangal", state: "Telangana", country: "India" },
     { name: "Nizamabad", state: "Telangana", country: "India" },
     { name: "Karimnagar", state: "Telangana", country: "India" },
+    // Tripura
     { name: "Agartala", state: "Tripura", country: "India" },
+    // Uttar Pradesh
     { name: "Lucknow", state: "Uttar Pradesh", country: "India" },
     { name: "Kanpur", state: "Uttar Pradesh", country: "India" },
     { name: "Varanasi", state: "Uttar Pradesh", country: "India" },
@@ -355,23 +441,29 @@ const citiesDatabase = [
     { name: "Aligarh", state: "Uttar Pradesh", country: "India" },
     { name: "Moradabad", state: "Uttar Pradesh", country: "India" },
     { name: "Gorakhpur", state: "Uttar Pradesh", country: "India" },
+    // Uttarakhand
     { name: "Dehradun", state: "Uttarakhand", country: "India" },
     { name: "Haridwar", state: "Uttarakhand", country: "India" },
     { name: "Rishikesh", state: "Uttarakhand", country: "India" },
     { name: "Nainital", state: "Uttarakhand", country: "India" },
     { name: "Mussoorie", state: "Uttarakhand", country: "India" },
+    // West Bengal
     { name: "Kolkata", state: "West Bengal", country: "India" },
     { name: "Howrah", state: "West Bengal", country: "India" },
     { name: "Durgapur", state: "West Bengal", country: "India" },
     { name: "Asansol", state: "West Bengal", country: "India" },
     { name: "Siliguri", state: "West Bengal", country: "India" },
     { name: "Darjeeling", state: "West Bengal", country: "India" },
+    // Union Territories
     { name: "New Delhi", state: "Delhi", country: "India" },
     { name: "Delhi", state: "Delhi", country: "India" },
     { name: "Srinagar", state: "Jammu & Kashmir", country: "India" },
     { name: "Jammu", state: "Jammu & Kashmir", country: "India" },
     { name: "Leh", state: "Ladakh", country: "India" },
 
+    // ==========================================
+    // UNITED KINGDOM
+    // ==========================================
     { name: "London", state: "England", country: "UK" },
     { name: "Birmingham", state: "England", country: "UK" },
     { name: "Manchester", state: "England", country: "UK" },
@@ -398,6 +490,9 @@ const citiesDatabase = [
     { name: "Newport", state: "Wales", country: "UK" },
     { name: "Belfast", state: "Northern Ireland", country: "UK" },
 
+    // ==========================================
+    // CANADA
+    // ==========================================
     { name: "Toronto", state: "Ontario", country: "Canada" },
     { name: "Montreal", state: "Quebec", country: "Canada" },
     { name: "Vancouver", state: "British Columbia", country: "Canada" },
@@ -417,6 +512,9 @@ const citiesDatabase = [
     { name: "Yellowknife", state: "Northwest Territories", country: "Canada" },
     { name: "Whitehorse", state: "Yukon", country: "Canada" },
 
+    // ==========================================
+    // AUSTRALIA
+    // ==========================================
     { name: "Sydney", state: "New South Wales", country: "Australia" },
     { name: "Melbourne", state: "Victoria", country: "Australia" },
     { name: "Brisbane", state: "Queensland", country: "Australia" },
@@ -429,6 +527,9 @@ const citiesDatabase = [
     { name: "Darwin", state: "Northern Territory", country: "Australia" },
     { name: "Cairns", state: "Queensland", country: "Australia" },
 
+    // ==========================================
+    // GERMANY
+    // ==========================================
     { name: "Berlin", state: "Berlin", country: "Germany" },
     { name: "Munich", state: "Bavaria", country: "Germany" },
     { name: "Hamburg", state: "Hamburg", country: "Germany" },
@@ -444,6 +545,9 @@ const citiesDatabase = [
     { name: "Nuremberg", state: "Bavaria", country: "Germany" },
     { name: "Bremen", state: "Bremen", country: "Germany" },
 
+    // ==========================================
+    // FRANCE
+    // ==========================================
     { name: "Paris", state: "Île-de-France", country: "France" },
     { name: "Marseille", state: "Provence-Alpes-Côte d'Azur", country: "France" },
     { name: "Lyon", state: "Auvergne-Rhône-Alpes", country: "France" },
@@ -457,6 +561,9 @@ const citiesDatabase = [
     { name: "Rennes", state: "Brittany", country: "France" },
     { name: "Cannes", state: "Provence-Alpes-Côte d'Azur", country: "France" },
 
+    // ==========================================
+    // SPAIN
+    // ==========================================
     { name: "Madrid", state: "Community of Madrid", country: "Spain" },
     { name: "Barcelona", state: "Catalonia", country: "Spain" },
     { name: "Valencia", state: "Valencian Community", country: "Spain" },
@@ -469,6 +576,9 @@ const citiesDatabase = [
     { name: "Alicante", state: "Valencian Community", country: "Spain" },
     { name: "Granada", state: "Andalusia", country: "Spain" },
 
+    // ==========================================
+    // ITALY
+    // ==========================================
     { name: "Rome", state: "Lazio", country: "Italy" },
     { name: "Milan", state: "Lombardy", country: "Italy" },
     { name: "Naples", state: "Campania", country: "Italy" },
@@ -481,6 +591,9 @@ const citiesDatabase = [
     { name: "Verona", state: "Veneto", country: "Italy" },
     { name: "Catania", state: "Sicily", country: "Italy" },
 
+    // ==========================================
+    // CHINA
+    // ==========================================
     { name: "Beijing", state: "Beijing", country: "China" },
     { name: "Shanghai", state: "Shanghai", country: "China" },
     { name: "Guangzhou", state: "Guangdong", country: "China" },
@@ -496,6 +609,9 @@ const citiesDatabase = [
     { name: "Hong Kong", state: "Hong Kong", country: "China" },
     { name: "Macau", state: "Macau", country: "China" },
 
+    // ==========================================
+    // JAPAN
+    // ==========================================
     { name: "Tokyo", state: "Tokyo", country: "Japan" },
     { name: "Osaka", state: "Osaka", country: "Japan" },
     { name: "Kyoto", state: "Kyoto", country: "Japan" },
@@ -508,6 +624,9 @@ const citiesDatabase = [
     { name: "Sendai", state: "Miyagi", country: "Japan" },
     { name: "Nara", state: "Nara", country: "Japan" },
 
+    // ==========================================
+    // SOUTH KOREA
+    // ==========================================
     { name: "Seoul", state: "Seoul", country: "South Korea" },
     { name: "Busan", state: "Busan", country: "South Korea" },
     { name: "Incheon", state: "Incheon", country: "South Korea" },
@@ -516,6 +635,9 @@ const citiesDatabase = [
     { name: "Gwangju", state: "Gwangju", country: "South Korea" },
     { name: "Ulsan", state: "Ulsan", country: "South Korea" },
 
+    // ==========================================
+    // BRAZIL
+    // ==========================================
     { name: "São Paulo", state: "São Paulo", country: "Brazil" },
     { name: "Rio de Janeiro", state: "Rio de Janeiro", country: "Brazil" },
     { name: "Brasília", state: "Federal District", country: "Brazil" },
@@ -527,6 +649,9 @@ const citiesDatabase = [
     { name: "Recife", state: "Pernambuco", country: "Brazil" },
     { name: "Porto Alegre", state: "Rio Grande do Sul", country: "Brazil" },
 
+    // ==========================================
+    // MEXICO
+    // ==========================================
     { name: "Mexico City", state: "Mexico City", country: "Mexico" },
     { name: "Guadalajara", state: "Jalisco", country: "Mexico" },
     { name: "Monterrey", state: "Nuevo León", country: "Mexico" },
@@ -536,6 +661,9 @@ const citiesDatabase = [
     { name: "Mérida", state: "Yucatán", country: "Mexico" },
     { name: "León", state: "Guanajuato", country: "Mexico" },
 
+    // ==========================================
+    // RUSSIA
+    // ==========================================
     { name: "Moscow", state: "Moscow", country: "Russia" },
     { name: "Saint Petersburg", state: "Saint Petersburg", country: "Russia" },
     { name: "Novosibirsk", state: "Novosibirsk Oblast", country: "Russia" },
@@ -545,6 +673,9 @@ const citiesDatabase = [
     { name: "Sochi", state: "Krasnodar Krai", country: "Russia" },
     { name: "Vladivostok", state: "Primorsky Krai", country: "Russia" },
 
+    // ==========================================
+    // MIDDLE EAST
+    // ==========================================
     { name: "Dubai", state: "Dubai", country: "UAE" },
     { name: "Abu Dhabi", state: "Abu Dhabi", country: "UAE" },
     { name: "Sharjah", state: "Sharjah", country: "UAE" },
@@ -569,6 +700,9 @@ const citiesDatabase = [
     { name: "Cairo", state: "Cairo", country: "Egypt" },
     { name: "Alexandria", state: "Alexandria", country: "Egypt" },
 
+    // ==========================================
+    // SOUTHEAST ASIA
+    // ==========================================
     { name: "Singapore", state: "Singapore", country: "Singapore" },
     { name: "Bangkok", state: "Bangkok", country: "Thailand" },
     { name: "Phuket", state: "Phuket", country: "Thailand" },
@@ -584,6 +718,9 @@ const citiesDatabase = [
     { name: "Hanoi", state: "Hanoi", country: "Vietnam" },
     { name: "Da Nang", state: "Da Nang", country: "Vietnam" },
 
+    // ==========================================
+    // SOUTH ASIA (Additional)
+    // ==========================================
     { name: "Dhaka", state: "Dhaka", country: "Bangladesh" },
     { name: "Chittagong", state: "Chittagong", country: "Bangladesh" },
     { name: "Colombo", state: "Western Province", country: "Sri Lanka" },
@@ -596,6 +733,9 @@ const citiesDatabase = [
     { name: "Rawalpindi", state: "Punjab", country: "Pakistan" },
     { name: "Faisalabad", state: "Punjab", country: "Pakistan" },
 
+    // ==========================================
+    // AFRICA
+    // ==========================================
     { name: "Lagos", state: "Lagos", country: "Nigeria" },
     { name: "Abuja", state: "FCT", country: "Nigeria" },
     { name: "Nairobi", state: "Nairobi", country: "Kenya" },
@@ -613,6 +753,9 @@ const citiesDatabase = [
     { name: "Addis Ababa", state: "Addis Ababa", country: "Ethiopia" },
     { name: "Dar es Salaam", state: "Dar es Salaam", country: "Tanzania" },
 
+    // ==========================================
+    // SOUTH AMERICA
+    // ==========================================
     { name: "Buenos Aires", state: "Buenos Aires", country: "Argentina" },
     { name: "Córdoba", state: "Córdoba", country: "Argentina" },
     { name: "Mendoza", state: "Mendoza", country: "Argentina" },
@@ -629,6 +772,9 @@ const citiesDatabase = [
     { name: "La Paz", state: "La Paz", country: "Bolivia" },
     { name: "Asunción", state: "Asunción", country: "Paraguay" },
 
+    // ==========================================
+    // EUROPE (Additional)
+    // ==========================================
     { name: "Amsterdam", state: "North Holland", country: "Netherlands" },
     { name: "Rotterdam", state: "South Holland", country: "Netherlands" },
     { name: "The Hague", state: "South Holland", country: "Netherlands" },
@@ -673,6 +819,9 @@ const citiesDatabase = [
     { name: "Malta", state: "Malta", country: "Malta" },
     { name: "Valletta", state: "Malta", country: "Malta" },
 
+    // ==========================================
+    // OCEANIA
+    // ==========================================
     { name: "Auckland", state: "Auckland", country: "New Zealand" },
     { name: "Wellington", state: "Wellington", country: "New Zealand" },
     { name: "Christchurch", state: "Canterbury", country: "New Zealand" },
@@ -681,6 +830,10 @@ const citiesDatabase = [
     { name: "Suva", state: "Central", country: "Fiji" },
     { name: "Port Moresby", state: "National Capital", country: "Papua New Guinea" },
 
+    // ==========================================
+    // ADDITIONAL INDIAN CITIES, TOWNS & VILLAGES
+    // ==========================================
+    // Tamil Nadu - Additional Towns
     { name: "Karur", state: "Tamil Nadu", country: "India" },
     { name: "Kumbakonam", state: "Tamil Nadu", country: "India" },
     { name: "Ramanathapuram", state: "Tamil Nadu", country: "India" },
@@ -717,6 +870,7 @@ const citiesDatabase = [
     { name: "Srirangam", state: "Tamil Nadu", country: "India" },
     { name: "Palani", state: "Tamil Nadu", country: "India" },
     
+    // Kerala - Additional
     { name: "Thrissur", state: "Kerala", country: "India" },
     { name: "Kozhikode", state: "Kerala", country: "India" },
     { name: "Kollam", state: "Kerala", country: "India" },
@@ -735,6 +889,7 @@ const citiesDatabase = [
     { name: "Kovalam", state: "Kerala", country: "India" },
     { name: "Guruvayur", state: "Kerala", country: "India" },
     
+    // Karnataka - Additional
     { name: "Mysuru", state: "Karnataka", country: "India" },
     { name: "Hubballi", state: "Karnataka", country: "India" },
     { name: "Dharwad", state: "Karnataka", country: "India" },
@@ -754,6 +909,7 @@ const citiesDatabase = [
     { name: "Hampi", state: "Karnataka", country: "India" },
     { name: "Badami", state: "Karnataka", country: "India" },
     
+    // Maharashtra - Additional
     { name: "Nagpur", state: "Maharashtra", country: "India" },
     { name: "Nashik", state: "Maharashtra", country: "India" },
     { name: "Aurangabad", state: "Maharashtra", country: "India" },
@@ -772,6 +928,7 @@ const citiesDatabase = [
     { name: "Alibaug", state: "Maharashtra", country: "India" },
     { name: "Panchgani", state: "Maharashtra", country: "India" },
     
+    // Gujarat - Additional
     { name: "Rajkot", state: "Gujarat", country: "India" },
     { name: "Jamnagar", state: "Gujarat", country: "India" },
     { name: "Junagadh", state: "Gujarat", country: "India" },
@@ -791,6 +948,7 @@ const citiesDatabase = [
     { name: "Kutch", state: "Gujarat", country: "India" },
     { name: "Bhuj", state: "Gujarat", country: "India" },
     
+    // Andhra Pradesh - Additional
     { name: "Vijayawada", state: "Andhra Pradesh", country: "India" },
     { name: "Tirupati", state: "Andhra Pradesh", country: "India" },
     { name: "Guntur", state: "Andhra Pradesh", country: "India" },
@@ -807,6 +965,7 @@ const citiesDatabase = [
     { name: "Srikakulam", state: "Andhra Pradesh", country: "India" },
     { name: "Araku Valley", state: "Andhra Pradesh", country: "India" },
     
+    // West Bengal - Additional
     { name: "Kharagpur", state: "West Bengal", country: "India" },
     { name: "Haldia", state: "West Bengal", country: "India" },
     { name: "Bardhaman", state: "West Bengal", country: "India" },
@@ -821,6 +980,7 @@ const citiesDatabase = [
     { name: "Shantiniketan", state: "West Bengal", country: "India" },
     { name: "Sundarbans", state: "West Bengal", country: "India" },
     
+    // Bihar - Additional
     { name: "Gaya", state: "Bihar", country: "India" },
     { name: "Bhagalpur", state: "Bihar", country: "India" },
     { name: "Muzaffarpur", state: "Bihar", country: "India" },
@@ -836,6 +996,7 @@ const citiesDatabase = [
     { name: "Nalanda", state: "Bihar", country: "India" },
     { name: "Vaishali", state: "Bihar", country: "India" },
     
+    // Madhya Pradesh - Additional
     { name: "Gwalior", state: "Madhya Pradesh", country: "India" },
     { name: "Jabalpur", state: "Madhya Pradesh", country: "India" },
     { name: "Ujjain", state: "Madhya Pradesh", country: "India" },
@@ -854,6 +1015,7 @@ const citiesDatabase = [
     { name: "Kanha", state: "Madhya Pradesh", country: "India" },
     { name: "Bandhavgarh", state: "Madhya Pradesh", country: "India" },
     
+    // Rajasthan - Additional
     { name: "Pushkar", state: "Rajasthan", country: "India" },
     { name: "Mount Abu", state: "Rajasthan", country: "India" },
     { name: "Chittorgarh", state: "Rajasthan", country: "India" },
@@ -869,6 +1031,7 @@ const citiesDatabase = [
     { name: "Ranakpur", state: "Rajasthan", country: "India" },
     { name: "Neemrana", state: "Rajasthan", country: "India" },
     
+    // Punjab - Additional
     { name: "Ludhiana", state: "Punjab", country: "India" },
     { name: "Patiala", state: "Punjab", country: "India" },
     { name: "Jalandhar", state: "Punjab", country: "India" },
@@ -881,6 +1044,7 @@ const citiesDatabase = [
     { name: "Kapurthala", state: "Punjab", country: "India" },
     { name: "Anandpur Sahib", state: "Punjab", country: "India" },
     
+    // Haryana - Additional
     { name: "Faridabad", state: "Haryana", country: "India" },
     { name: "Karnal", state: "Haryana", country: "India" },
     { name: "Panipat", state: "Haryana", country: "India" },
@@ -894,6 +1058,7 @@ const citiesDatabase = [
     { name: "Rewari", state: "Haryana", country: "India" },
     { name: "Sirsa", state: "Haryana", country: "India" },
     
+    // Uttar Pradesh - Additional
     { name: "Jhansi", state: "Uttar Pradesh", country: "India" },
     { name: "Mathura", state: "Uttar Pradesh", country: "India" },
     { name: "Vrindavan", state: "Uttar Pradesh", country: "India" },
@@ -918,6 +1083,7 @@ const citiesDatabase = [
     { name: "Bhadohi", state: "Uttar Pradesh", country: "India" },
     { name: "Sarnath", state: "Uttar Pradesh", country: "India" },
     
+    // Uttarakhand - Additional
     { name: "Roorkee", state: "Uttarakhand", country: "India" },
     { name: "Haldwani", state: "Uttarakhand", country: "India" },
     { name: "Kashipur", state: "Uttarakhand", country: "India" },
@@ -947,6 +1113,7 @@ const citiesDatabase = [
     { name: "Binsar", state: "Uttarakhand", country: "India" },
     { name: "Lansdowne", state: "Uttarakhand", country: "India" },
     
+    // Himachal Pradesh - Additional
     { name: "Manali", state: "Himachal Pradesh", country: "India" },
     { name: "Kullu", state: "Himachal Pradesh", country: "India" },
     { name: "Dharamshala", state: "Himachal Pradesh", country: "India" },
@@ -974,6 +1141,7 @@ const citiesDatabase = [
     { name: "Bir Billing", state: "Himachal Pradesh", country: "India" },
     { name: "Khajjiar", state: "Himachal Pradesh", country: "India" },
     
+    // Northeast India
     { name: "Shillong", state: "Meghalaya", country: "India" },
     { name: "Cherrapunji", state: "Meghalaya", country: "India" },
     { name: "Mawsynram", state: "Meghalaya", country: "India" },
@@ -1000,6 +1168,7 @@ const citiesDatabase = [
     { name: "Imphal", state: "Manipur", country: "India" },
     { name: "Loktak Lake", state: "Manipur", country: "India" },
     
+    // Goa - Additional
     { name: "Panaji", state: "Goa", country: "India" },
     { name: "Margao", state: "Goa", country: "India" },
     { name: "Vasco da Gama", state: "Goa", country: "India" },
@@ -1018,6 +1187,10 @@ const citiesDatabase = [
     { name: "Old Goa", state: "Goa", country: "India" },
     { name: "Dudhsagar", state: "Goa", country: "India" },
 
+    // ==========================================
+    // ADDITIONAL WORLD CITIES & VILLAGES
+    // ==========================================
+    // United Kingdom - Additional
     { name: "Canterbury", state: "England", country: "UK" },
     { name: "Dover", state: "England", country: "UK" },
     { name: "Windsor", state: "England", country: "UK" },
@@ -1044,6 +1217,7 @@ const citiesDatabase = [
     { name: "Pembrokeshire", state: "Wales", country: "UK" },
     { name: "Bangor", state: "Wales", country: "UK" },
     
+    // France - Additional
     { name: "Nice", state: "Provence-Alpes-Côte d'Azur", country: "France" },
     { name: "Cannes", state: "Provence-Alpes-Côte d'Azur", country: "France" },
     { name: "Marseille", state: "Provence-Alpes-Côte d'Azur", country: "France" },
@@ -1067,6 +1241,7 @@ const citiesDatabase = [
     { name: "Provence", state: "Provence-Alpes-Côte d'Azur", country: "France" },
     { name: "Loire Valley", state: "Centre-Val de Loire", country: "France" },
     
+    // Italy - Additional
     { name: "Milan", state: "Lombardy", country: "Italy" },
     { name: "Naples", state: "Campania", country: "Italy" },
     { name: "Turin", state: "Piedmont", country: "Italy" },
@@ -1100,6 +1275,7 @@ const citiesDatabase = [
     { name: "Lecce", state: "Puglia", country: "Italy" },
     { name: "Alberobello", state: "Puglia", country: "Italy" },
     
+    // Spain - Additional
     { name: "Valencia", state: "Valencia", country: "Spain" },
     { name: "Seville", state: "Andalusia", country: "Spain" },
     { name: "Bilbao", state: "Basque Country", country: "Spain" },
@@ -1125,6 +1301,7 @@ const citiesDatabase = [
     { name: "Pamplona", state: "Navarre", country: "Spain" },
     { name: "Santiago de Compostela", state: "Galicia", country: "Spain" },
     
+    // Germany - Additional
     { name: "Hamburg", state: "Hamburg", country: "Germany" },
     { name: "Cologne", state: "North Rhine-Westphalia", country: "Germany" },
     { name: "Stuttgart", state: "Baden-Württemberg", country: "Germany" },
@@ -1149,6 +1326,7 @@ const citiesDatabase = [
     { name: "Trier", state: "Rhineland-Palatinate", country: "Germany" },
     { name: "Potsdam", state: "Brandenburg", country: "Germany" },
     
+    // USA - Additional Cities & Towns
     { name: "Las Vegas", state: "Nevada", country: "US" },
     { name: "Reno", state: "Nevada", country: "US" },
     { name: "Santa Fe", state: "New Mexico", country: "US" },
@@ -1221,6 +1399,7 @@ const citiesDatabase = [
     { name: "Big Island", state: "Hawaii", country: "US" },
     { name: "Waikiki", state: "Hawaii", country: "US" },
     
+    // Japan - Additional
     { name: "Nikko", state: "Tochigi", country: "Japan" },
     { name: "Hakone", state: "Kanagawa", country: "Japan" },
     { name: "Kamakura", state: "Kanagawa", country: "Japan" },
@@ -1247,6 +1426,7 @@ const citiesDatabase = [
     { name: "Furano", state: "Hokkaido", country: "Japan" },
     { name: "Biei", state: "Hokkaido", country: "Japan" },
     
+    // China - Additional
     { name: "Guilin", state: "Guangxi", country: "China" },
     { name: "Yangshuo", state: "Guangxi", country: "China" },
     { name: "Lijiang", state: "Yunnan", country: "China" },
@@ -1282,6 +1462,7 @@ const citiesDatabase = [
     { name: "Urumqi", state: "Xinjiang", country: "China" },
     { name: "Kashgar", state: "Xinjiang", country: "China" },
     
+    // Southeast Asia - Additional
     { name: "Pattaya", state: "Chonburi", country: "Thailand" },
     { name: "Krabi", state: "Krabi", country: "Thailand" },
     { name: "Koh Samui", state: "Surat Thani", country: "Thailand" },
@@ -1358,6 +1539,7 @@ const citiesDatabase = [
     { name: "Inle Lake", state: "Shan", country: "Myanmar" },
     { name: "Ngapali Beach", state: "Rakhine", country: "Myanmar" },
     
+    // Australia - Additional
     { name: "Brisbane", state: "Queensland", country: "Australia" },
     { name: "Perth", state: "Western Australia", country: "Australia" },
     { name: "Adelaide", state: "South Australia", country: "Australia" },
@@ -1396,6 +1578,7 @@ const citiesDatabase = [
     { name: "Port Douglas", state: "Queensland", country: "Australia" },
     { name: "Daintree", state: "Queensland", country: "Australia" },
     
+    // Middle East - Additional
     { name: "Petra", state: "Ma'an", country: "Jordan" },
     { name: "Wadi Rum", state: "Aqaba", country: "Jordan" },
     { name: "Dead Sea", state: "Balqa", country: "Jordan" },
@@ -1430,6 +1613,7 @@ const citiesDatabase = [
     { name: "Nazareth", state: "Northern", country: "Israel" },
     { name: "Bethlehem", state: "West Bank", country: "Palestine" },
     
+    // Africa - Additional
     { name: "Zanzibar", state: "Zanzibar", country: "Tanzania" },
     { name: "Serengeti", state: "Mara", country: "Tanzania" },
     { name: "Ngorongoro", state: "Arusha", country: "Tanzania" },
@@ -1474,6 +1658,7 @@ const citiesDatabase = [
     { name: "Bamako", state: "Bamako", country: "Mali" },
     { name: "Timbuktu", state: "Tombouctou", country: "Mali" },
     
+    // South America - Additional
     { name: "Machu Picchu", state: "Cusco", country: "Peru" },
     { name: "Sacred Valley", state: "Cusco", country: "Peru" },
     { name: "Lake Titicaca", state: "Puno", country: "Peru" },
@@ -1533,6 +1718,7 @@ const citiesDatabase = [
     { name: "Punta del Este", state: "Maldonado", country: "Uruguay" },
     { name: "Colonia del Sacramento", state: "Colonia", country: "Uruguay" },
     
+    // Caribbean
     { name: "Havana", state: "Havana", country: "Cuba" },
     { name: "Varadero", state: "Matanzas", country: "Cuba" },
     { name: "Trinidad", state: "Sancti Spíritus", country: "Cuba" },
@@ -1563,6 +1749,7 @@ const citiesDatabase = [
     { name: "Martinique", state: "Fort-de-France", country: "Martinique" },
     { name: "Guadeloupe", state: "Basse-Terre", country: "Guadeloupe" },
     
+    // Central America
     { name: "Guatemala City", state: "Guatemala", country: "Guatemala" },
     { name: "Antigua Guatemala", state: "Sacatepéquez", country: "Guatemala" },
     { name: "Tikal", state: "Petén", country: "Guatemala" },
@@ -1596,6 +1783,7 @@ const citiesDatabase = [
     { name: "Corn Islands", state: "RACCS", country: "Nicaragua" },
 ];
 
+// US States list for standalone state searches
 const usStates = [
     "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
     "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
@@ -1607,6 +1795,7 @@ const usStates = [
     "Wisconsin", "Wyoming", "Washington D.C."
 ];
 
+// Indian States list
 const indianStates = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
     "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
@@ -1616,17 +1805,20 @@ const indianStates = [
     "Puducherry", "Chandigarh", "Andaman and Nicobar Islands", "Lakshadweep"
 ];
 
+// Search function for autocomplete
 function searchCities(query) {
     if (!query || query.length < 2) return [];
     
     const lowerQuery = query.toLowerCase();
     const results = [];
     
+    // Search in cities database
     for (const city of citiesDatabase) {
         const cityName = city.name.toLowerCase();
         const stateName = city.state.toLowerCase();
         const countryName = city.country.toLowerCase();
         
+        // Match by city name
         if (cityName.startsWith(lowerQuery) || cityName.includes(lowerQuery)) {
             results.push({
                 display: `${city.name}, ${city.state}, ${city.country}`,
@@ -1635,6 +1827,7 @@ function searchCities(query) {
                 score: cityName.startsWith(lowerQuery) ? 2 : 1
             });
         }
+        // Match by state name
         else if (stateName.startsWith(lowerQuery) || stateName.includes(lowerQuery)) {
             results.push({
                 display: `${city.name}, ${city.state}, ${city.country}`,
@@ -1647,6 +1840,7 @@ function searchCities(query) {
         if (results.length >= 50) break; // Limit initial results
     }
     
+    // Search in US states
     for (const state of usStates) {
         if (state.toLowerCase().startsWith(lowerQuery)) {
             results.push({
@@ -1658,6 +1852,7 @@ function searchCities(query) {
         }
     }
     
+    // Search in Indian states
     for (const state of indianStates) {
         if (state.toLowerCase().startsWith(lowerQuery)) {
             results.push({
@@ -1669,8 +1864,10 @@ function searchCities(query) {
         }
     }
     
+    // Sort by score and remove duplicates
     results.sort((a, b) => b.score - a.score);
     
+    // Remove duplicates based on display text
     const seen = new Set();
     const uniqueResults = results.filter(item => {
         if (seen.has(item.display)) return false;
@@ -1681,6 +1878,7 @@ function searchCities(query) {
     return uniqueResults.slice(0, 10); // Return top 10 results
 }
 
+// Export for use in app.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { citiesDatabase, usStates, indianStates, searchCities };
 }
