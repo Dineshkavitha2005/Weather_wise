@@ -2,10 +2,14 @@
 
 // API Configuration
 const API_KEY = window.WEATHERWISE_CONFIG?.openWeatherApiKey;
+const OPENAI_API_KEY = window.WEATHERWISE_CONFIG?.openAiApiKey;
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 const GEO_URL = 'https://api.openweathermap.org/geo/1.0';
-const CHAT_API_URL = '/api/chat';
-const CHAT_REQUEST_TIMEOUT_MS = 12000;
+const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
+
+if (!API_KEY) {
+    throw new Error('Missing OpenWeatherMap API key. Copy config.example.js to config.js and add your key.');
+}
 
 // Global State
 let currentCity = 'London';
@@ -22,8 +26,9 @@ let highlightedSuggestionIndex = -1;
 let currentSuggestions = [];
 let recentSearches = [];
 let chatRequestInProgress = false;
+let firebaseAuth;
+let authState = WeatherWiseAuthState.initialState;
 const MAX_RECENT_SEARCHES = 5;
-const LAST_WEATHER_STORAGE_KEY = 'weatherwise_last_weather';
 
 // DOM Elements
 const elements = {
@@ -163,11 +168,21 @@ function savePreferences() {
 // ==========================================
 
 function checkUserAuth() {
-    if (!window.firebase || !firebase.apps.length) {
+    if (!window.firebase || !window.WEATHERWISE_CONFIG?.firebase) {
         updateAuthUI(null);
         return;
     }
-    firebase.auth().onAuthStateChanged(updateAuthUI);
+    if (!firebase.apps.length) firebase.initializeApp(window.WEATHERWISE_CONFIG.firebase);
+    firebaseAuth = firebase.auth();
+    firebaseAuth.onAuthStateChanged(user => {
+        authState = WeatherWiseAuthState.reduceAuthState(authState, user
+            ? { type: 'AUTHENTICATED', user }
+            : { type: 'UNAUTHENTICATED' });
+        updateAuthUI(WeatherWiseAuthState.isAuthenticated(authState) ? user : null);
+    }, () => {
+        authState = WeatherWiseAuthState.reduceAuthState(authState, { type: 'AUTH_ERROR' });
+        updateAuthUI(null);
+    });
 }
 
 function updateAuthUI(user) {
@@ -180,7 +195,7 @@ function updateAuthUI(user) {
     if (user) {
         // User is logged in
         if (userDisplayName) {
-            userDisplayName.textContent = user.displayName || user.email;
+            userDisplayName.textContent = user.displayName || user.email || 'User';
         }
         if (loginBtn) loginBtn.style.display = 'none';
         if (signupBtn) signupBtn.style.display = 'none';
@@ -188,12 +203,16 @@ function updateAuthUI(user) {
         
         // Update avatar icon
         if (userAvatarBtn) {
-            userAvatarBtn.innerHTML = `<span class="user-initial">${(user.displayName || user.email).charAt(0).toUpperCase()}</span>`;
+            const initial = document.createElement('span');
+            initial.className = 'user-initial';
+            initial.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+            userAvatarBtn.replaceChildren(initial);
             userAvatarBtn.style.background = 'var(--accent-gradient)';
             userAvatarBtn.style.color = 'white';
             userAvatarBtn.style.fontWeight = '600';
         }
         
+        // If user has default city, use it
     } else {
         // User is not logged in
         if (userDisplayName) {
@@ -204,17 +223,21 @@ function updateAuthUI(user) {
         if (logoutBtn) logoutBtn.style.display = 'none';
     }
     
+    // Add logout handler
     if (logoutBtn) {
         logoutBtn.onclick = handleLogout;
     }
 }
 
 async function handleLogout() {
+    if (!firebaseAuth) return;
     try {
-        await firebase.auth().signOut();
-        showToast(getTranslations(currentLang).logoutSuccess || 'Logged out successfully!', 'success');
+        await firebaseAuth.signOut();
+        recentSearches = [];
+        localStorage.removeItem('recentSearches');
+        showToast(translations[currentLang].logoutSuccess || 'Logged out successfully!', 'success');
     } catch (error) {
-        showToast('Unable to log out. Please try again.', 'error');
+        showToast('Unable to log out right now. Please try again.', 'error');
     }
 }
 
@@ -239,7 +262,7 @@ function toggleTheme() {
 // ==========================================
 
 function applyLanguage() {
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     
     // Update all translatable elements
     document.querySelectorAll('[data-translate]').forEach(el => {
@@ -266,8 +289,6 @@ function applyLanguage() {
     } else {
         document.documentElement.dir = 'ltr';
     }
-
-    updateVoiceLanguage();
     
     // Update weather map translations (layer buttons and legend)
     if (typeof updateMapTranslations === 'function') {
@@ -320,7 +341,7 @@ function setupEventListeners() {
     });
     
     // Location
-    elements.locationBtn.addEventListener('click', useCurrentLocation);
+    elements.locationBtn.addEventListener('click', getUserLocation);
     
     // Voice Search
     elements.voiceSearchBtn.addEventListener('click', startVoiceSearch);
@@ -407,22 +428,24 @@ async function searchCity(cityName) {
     try {
         // Normalize the search query
         const normalizedQuery = normalizeSearchQuery(cityName);
-
-        const data = await fetchOpenWeather(
+        
+        const response = await fetch(
             `${GEO_URL}/direct?q=${encodeURIComponent(normalizedQuery)}&limit=5&appid=${API_KEY}`
         );
-
+        const data = await response.json();
+        
         if (data.length === 0) {
             // Try searching with just the city name if the full query failed
             const cityOnly = cityName.split(',')[0].trim();
-            const retryData = await fetchOpenWeather(
+            const retryResponse = await fetch(
                 `${GEO_URL}/direct?q=${encodeURIComponent(cityOnly)}&limit=5&appid=${API_KEY}`
             );
-
+            const retryData = await retryResponse.json();
+            
             if (retryData.length === 0) {
-                throw createWeatherError('CITY_NOT_FOUND', 'City not found');
+                throw new Error('City not found');
             }
-
+            
             return {
                 lat: retryData[0].lat,
                 lon: retryData[0].lon,
@@ -444,16 +467,23 @@ async function searchCity(cityName) {
 
 async function fetchWeatherData(lat, lon) {
     showLoading();
-
+    
     try {
         // Get OWM API language code (some languages like Tamil are not supported)
         const apiLang = typeof getOwmLangCode === 'function' ? getOwmLangCode(currentLang) : currentLang;
         
-        const data = await WeatherUtils.fetchWeatherData(lat, lon, { apiKey: API_KEY, language: apiLang });
-        weatherData = data.current;
-        forecastData = data.forecast;
-        saveLastWeather(data);
-
+        // Fetch current weather
+        const currentResponse = await fetch(
+            `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=${apiLang}`
+        );
+        weatherData = await currentResponse.json();
+        
+        // Fetch 5-day forecast (3-hour intervals)
+        const forecastResponse = await fetch(
+            `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=${apiLang}`
+        );
+        forecastData = await forecastResponse.json();
+        
         // Update UI
         updateCurrentWeather();
         updateHourlyForecast();
@@ -464,132 +494,10 @@ async function fetchWeatherData(lat, lon) {
         
         hideLoading();
         
-        return true;
     } catch (error) {
         console.error('Error fetching weather data:', error);
         hideLoading();
-        if (!restoreLastWeather()) {
-            showWeatherError(error);
-        }
-        return false;
     }
-}
-
-function saveLastWeather(data) {
-    try {
-        localStorage.setItem(LAST_WEATHER_STORAGE_KEY, JSON.stringify({
-            current: data.current,
-            forecast: data.forecast,
-            city: currentCity,
-            lat: currentLat,
-            lon: currentLon,
-            savedAt: Date.now()
-        }));
-    } catch (error) {
-        console.warn('Unable to save the last weather response.', error);
-    }
-}
-
-function restoreLastWeather() {
-    try {
-        const saved = JSON.parse(localStorage.getItem(LAST_WEATHER_STORAGE_KEY));
-        if (!saved?.current || !saved?.forecast) return false;
-
-        weatherData = saved.current;
-        forecastData = saved.forecast;
-        currentCity = saved.city || currentCity;
-        currentLat = saved.lat ?? currentLat;
-        currentLon = saved.lon ?? currentLon;
-        updateCurrentWeather();
-        updateHourlyForecast();
-        updateWeeklyForecast();
-        updateMonthlyCalendar();
-        updateAIPrediction();
-        showToast('Showing your last saved forecast while offline.', 'info');
-        return true;
-    } catch (error) {
-        console.warn('Unable to restore the last weather response.', error);
-        return false;
-    }
-}
-
-function createWeatherError(code, message) {
-    const error = new Error(message);
-    error.code = code;
-    return error;
-}
-
-async function fetchOpenWeather(url) {
-    if (!API_KEY) {
-        throw createWeatherError('INVALID_API_KEY', 'OpenWeatherMap API key is missing.');
-    }
-
-    let response;
-    try {
-        response = await fetch(url);
-    } catch (error) {
-        throw createWeatherError('NETWORK_ERROR', 'Unable to connect to OpenWeatherMap.');
-    }
-
-    let data = null;
-    try {
-        data = await response.json();
-    } catch (error) {
-        data = null;
-    }
-
-    if (!response.ok || (data && Number(data.cod) >= 400)) {
-        if (response.status === 401) {
-            throw createWeatherError('INVALID_API_KEY', 'OpenWeatherMap rejected the API key.');
-        }
-        if (Number(data?.cod) === 401) {
-            throw createWeatherError('INVALID_API_KEY', 'OpenWeatherMap rejected the API key.');
-        }
-        if (response.status === 404) {
-            throw createWeatherError('CITY_NOT_FOUND', 'City not found.');
-        }
-        if (Number(data?.cod) === 404) {
-            throw createWeatherError('CITY_NOT_FOUND', 'City not found.');
-        }
-        throw createWeatherError('API_ERROR', data?.message || 'OpenWeatherMap is temporarily unavailable.');
-    }
-
-    if (!data) {
-        throw createWeatherError('API_ERROR', 'OpenWeatherMap returned an invalid response.');
-    }
-
-    return data;
-}
-
-function showWeatherError(error) {
-    weatherData = null;
-    forecastData = null;
-    elements.cityName.textContent = 'Weather unavailable';
-    elements.currentDate.textContent = '';
-    elements.weatherIcon.removeAttribute('src');
-    elements.currentTemp.textContent = '--°';
-    elements.weatherDescription.textContent = '--';
-    elements.feelsLike.textContent = '--°';
-    elements.humidity.textContent = '--%';
-    elements.windSpeed.textContent = '-- km/h';
-    elements.visibility.textContent = '-- km';
-    elements.pressure.textContent = '-- hPa';
-    elements.uvIndex.textContent = '--';
-    elements.sunrise.textContent = '--:--';
-    elements.sunset.textContent = '--:--';
-    elements.weeklyForecast.innerHTML = '';
-    elements.hourlyForecast.innerHTML = '';
-    elements.monthlyCalendar.innerHTML = '';
-    elements.weatherTrends.textContent = 'Weather insights are unavailable right now.';
-    elements.aiRecommendations.innerHTML = '';
-
-    const messages = {
-        CITY_NOT_FOUND: 'We could not find that city. Check the spelling and try again.',
-        INVALID_API_KEY: 'Weather service setup is incomplete. Please check the OpenWeatherMap API key.',
-        NETWORK_ERROR: 'We could not reach the weather service. Check your connection and try again.',
-        API_ERROR: 'The weather service is temporarily unavailable. Please try again shortly.'
-    };
-    showToast(messages[error.code] || messages.API_ERROR, 'error');
 }
 
 // ==========================================
@@ -599,7 +507,7 @@ function showWeatherError(error) {
 function updateCurrentWeather() {
     if (!weatherData) return;
     
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     
     // City name and date - Use the searched city name if available, otherwise use API response
     const displayCity = currentCity || weatherData.name;
@@ -655,7 +563,7 @@ function updateCurrentWeather() {
 function updateHourlyForecast() {
     if (!forecastData) return;
     
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     elements.hourlyForecast.innerHTML = '';
     
     // Get next 24 hours (8 * 3-hour intervals)
@@ -685,7 +593,7 @@ function updateHourlyForecast() {
 function updateWeeklyForecast() {
     if (!forecastData) return;
     
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     elements.weeklyForecast.innerHTML = '';
     
     // Group forecast by day
@@ -747,7 +655,7 @@ function updateWeeklyForecast() {
 }
 
 function updateMonthlyCalendar() {
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 
                         'july', 'august', 'september', 'october', 'november', 'december'];
     const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -783,14 +691,15 @@ function updateMonthlyCalendar() {
         const date = new Date(currentYear, currentMonth, day);
         const isToday = date.toDateString() === today.toDateString();
         
-        const forecastWeather = getForecastWeatherForDate(date);
+        // Generate simulated weather for the month
+        const simulatedWeather = generateSimulatedWeather(date);
         
         const dayCell = document.createElement('div');
         dayCell.className = `calendar-day ${isToday ? 'today' : ''}`;
         dayCell.innerHTML = `
             <div class="day-number">${day}</div>
-            <img class="day-icon" src="https://openweathermap.org/img/wn/${forecastWeather?.icon || '01d'}@2x.png" alt="Weather">
-            <div class="day-temp">${forecastWeather ? `${forecastWeather.high}°/${forecastWeather.low}°` : '--/--'}</div>
+            <img class="day-icon" src="https://openweathermap.org/img/wn/${simulatedWeather.icon}@2x.png" alt="Weather">
+            <div class="day-temp">${simulatedWeather.high}°/${simulatedWeather.low}°</div>
         `;
         elements.monthlyCalendar.appendChild(dayCell);
     }
@@ -800,56 +709,60 @@ function updateMonthlyCalendar() {
 }
 
 function updateMonthlySummary() {
+    // Generate simulated monthly stats
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     let totalHigh = 0, totalLow = 0, rainy = 0, sunny = 0;
-    let forecastDays = 0;
     
     for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(currentYear, currentMonth, day);
-        const weather = getForecastWeatherForDate(date);
-        if (!weather) continue;
-
-        forecastDays++;
+        const weather = generateSimulatedWeather(date);
         totalHigh += weather.high;
         totalLow += weather.low;
         if (weather.isRainy) rainy++;
         if (weather.isSunny) sunny++;
     }
     
-    elements.avgHighTemp.textContent = forecastDays ? `${Math.round(totalHigh / forecastDays)}°C` : '--';
-    elements.avgLowTemp.textContent = forecastDays ? `${Math.round(totalLow / forecastDays)}°C` : '--';
-    elements.rainyDays.textContent = forecastDays ? rainy : '--';
-    elements.sunnyDays.textContent = forecastDays ? sunny : '--';
+    elements.avgHighTemp.textContent = `${Math.round(totalHigh / daysInMonth)}°C`;
+    elements.avgLowTemp.textContent = `${Math.round(totalLow / daysInMonth)}°C`;
+    elements.rainyDays.textContent = rainy;
+    elements.sunnyDays.textContent = sunny;
 }
 
-function getForecastWeatherForDate(date) {
-    if (!forecastData?.list?.length) return null;
-
-    const matchingItems = forecastData.list.filter(item => {
-        return new Date(item.dt * 1000).toDateString() === date.toDateString();
-    });
-    if (!matchingItems.length) return null;
-
-    const conditionCounts = {};
-    matchingItems.forEach(item => {
-        const condition = item.weather[0];
-        const key = condition.id;
-        if (!conditionCounts[key]) {
-            conditionCounts[key] = { count: 0, icon: item.weather[0].icon };
+function generateSimulatedWeather(date) {
+    // Generate weather based on month and location
+    const month = date.getMonth();
+    const baseTemp = weatherData ? weatherData.main.temp : 20;
+    
+    // Seasonal adjustment
+    const seasonalOffset = Math.sin((month - 6) * Math.PI / 6) * 10;
+    
+    // Random variation
+    const randomHigh = baseTemp + seasonalOffset + (Math.random() * 6 - 3);
+    const randomLow = randomHigh - 5 - Math.random() * 5;
+    
+    // Weather conditions
+    const conditions = ['01d', '02d', '03d', '04d', '09d', '10d', '11d', '13d'];
+    const weights = [0.3, 0.2, 0.15, 0.1, 0.1, 0.08, 0.05, 0.02];
+    
+    // Adjust for season
+    let icon;
+    const rand = Math.random();
+    let cumulative = 0;
+    for (let i = 0; i < conditions.length; i++) {
+        cumulative += weights[i];
+        if (rand < cumulative) {
+            icon = conditions[i];
+            break;
         }
-        conditionCounts[key].count++;
-    });
-    const dominantCondition = Object.values(conditionCounts)
-        .sort((a, b) => b.count - a.count)[0];
-    const rainProbability = Math.max(...matchingItems.map(item => item.pop || 0));
-    const mainConditions = matchingItems.map(item => item.weather[0].main.toLowerCase());
-
+    }
+    icon = icon || '01d';
+    
     return {
-        high: Math.round(Math.max(...matchingItems.map(item => item.main.temp))),
-        low: Math.round(Math.min(...matchingItems.map(item => item.main.temp))),
-        icon: dominantCondition.icon,
-        isRainy: rainProbability >= 0.4 || mainConditions.some(condition => ['rain', 'drizzle', 'thunderstorm'].includes(condition)),
-        isSunny: mainConditions.some(condition => condition === 'clear')
+        high: Math.round(randomHigh),
+        low: Math.round(randomLow),
+        icon: icon,
+        isRainy: ['09d', '10d', '11d'].includes(icon),
+        isSunny: ['01d', '02d'].includes(icon)
     };
 }
 
@@ -872,7 +785,7 @@ function navigateMonth(direction) {
 function updateAIPrediction() {
     if (!weatherData || !forecastData) return;
     
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     
     // Generate extended forecast (2 weeks)
     generateExtendedForecast();
@@ -889,57 +802,58 @@ function updateAIPrediction() {
 
 function generateExtendedForecast() {
     elements.extendedForecast.innerHTML = '';
-
-    const dailyForecasts = getDailyForecastSummaries();
-    dailyForecasts.forEach(({ date, high, low, icon }) => {
+    
+    const today = new Date();
+    
+    for (let i = 0; i < 14; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() + i);
+        
+        const weather = generateSimulatedWeather(date);
         
         const dayEl = document.createElement('div');
         dayEl.className = 'extended-day';
         dayEl.innerHTML = `
             <div class="ext-date">${date.getDate()}/${date.getMonth() + 1}</div>
-            <img class="ext-icon" src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="Weather">
-            <div class="ext-temp">${high}°/${low}°</div>
+            <img class="ext-icon" src="https://openweathermap.org/img/wn/${weather.icon}@2x.png" alt="Weather">
+            <div class="ext-temp">${weather.high}°/${weather.low}°</div>
         `;
         elements.extendedForecast.appendChild(dayEl);
-    });
+    }
 }
 
 function generateWeatherTrends() {
-    elements.weatherTrends.textContent = generateForecastInsight();
-}
-
-function getDailyForecastSummaries() {
-    return WeatherUtils.parseForecastData(forecastData);
-}
-
-function generateForecastInsight() {
-    const t = getTranslations(currentLang);
-    const dailyForecasts = getDailyForecastSummaries();
-    const today = dailyForecasts[0];
-    const tomorrow = dailyForecasts[1];
-    if (!today || !tomorrow) {
-        return t.weatherGood;
+    const t = translations[currentLang];
+    const temp = weatherData.main.temp;
+    const humidity = weatherData.main.humidity;
+    const description = weatherData.weather[0].main.toLowerCase();
+    
+    let analysis = '';
+    
+    // Temperature trend
+    if (temp > 30) {
+        analysis += t.weatherHot + ' ';
+    } else if (temp < 10) {
+        analysis += t.weatherCold + ' ';
+    } else {
+        analysis += t.weatherGood + ' ';
     }
-
-    const temperatureDifference = tomorrow.high - today.high;
-    const temperatureTrend = temperatureDifference >= 2
-        ? 'warmer'
-        : temperatureDifference <= -2
-            ? 'cooler'
-            : 'similar';
-    const condition = tomorrow.description.charAt(0).toLowerCase() + tomorrow.description.slice(1);
-
-    if (tomorrow.rainChance - today.rainChance >= 20) {
-        return `Tomorrow is likely ${temperatureTrend} with a higher chance of rain (${tomorrow.rainChance}%).`;
+    
+    // Precipitation trend
+    if (description.includes('rain') || description.includes('drizzle')) {
+        analysis += t.weatherRain;
     }
-
-    return temperatureTrend === 'similar'
-        ? `Tomorrow looks similar, with ${condition}.`
-        : `Tomorrow is likely ${temperatureTrend} with ${condition}.`;
+    
+    // Add humidity info
+    if (humidity > 80) {
+        analysis += ` ${t.humidity}: ${humidity}% (High)`;
+    }
+    
+    elements.weatherTrends.textContent = analysis || t.weatherGood;
 }
 
 function generateWeatherAlerts() {
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     const alerts = [];
     
     const temp = weatherData.main.temp;
@@ -981,7 +895,7 @@ function generateWeatherAlerts() {
 }
 
 function generateRecommendations() {
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     const recommendations = [];
     
     const temp = weatherData.main.temp;
@@ -1035,8 +949,6 @@ function handleMapTabClick(tab) {
 }
 
 function updateWeatherMap(type) {
-    if (!elements.weatherMap) return;
-
     const layerMap = {
         'temp': 'temp_new',
         'precipitation': 'precipitation_new',
@@ -1080,7 +992,6 @@ async function handleSearch() {
         await fetchWeatherData(currentLat, currentLon);
     } catch (error) {
         hideLoading();
-        showWeatherError(error);
     }
 }
 
@@ -1349,16 +1260,21 @@ function addRecentSearchHandlers() {
     });
 }
 
-async function useCurrentLocation() {
-    try {
-        const position = await getUserLocation({ timeout: 10000 });
-        currentLat = position.coords.latitude;
-        currentLon = position.coords.longitude;
-        await fetchWeatherData(currentLat, currentLon);
-        showToast(getTranslations(currentLang).successLocation, 'success');
-    } catch (error) {
-        // Silently fail - user can search manually
-        console.log('Location access denied or unavailable');
+function getUserLocation() {
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                currentLat = position.coords.latitude;
+                currentLon = position.coords.longitude;
+                await fetchWeatherData(currentLat, currentLon);
+                showToast(translations[currentLang].successLocation, 'success');
+            },
+            (error) => {
+                // Silently fail - user can search manually
+                console.log('Location access denied or unavailable');
+            },
+            { timeout: 10000 }
+        );
     }
 }
 
@@ -1368,23 +1284,13 @@ async function useCurrentLocation() {
 
 let recognition = null;
 
-function getSpeechLanguage() {
-    return speechLangCodes[currentLang] || 'en-US';
-}
-
-function updateVoiceLanguage() {
-    if (recognition) {
-        recognition.lang = getSpeechLanguage();
-    }
-}
-
 function initVoiceRecognition() {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
         recognition.continuous = false;
         recognition.interimResults = true;
-        recognition.lang = getSpeechLanguage();
+        recognition.lang = speechLangCodes[currentLang] || 'en-US';
         
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
@@ -1397,9 +1303,6 @@ function initVoiceRecognition() {
         
         recognition.onerror = (event) => {
             console.error('Voice recognition error:', event.error);
-            if (event.error === 'language-not-supported') {
-                showToast(getTranslations(currentLang).voiceNotSupported, 'warning');
-            }
             closeVoiceOverlay();
         };
         
@@ -1414,7 +1317,7 @@ function initVoiceRecognition() {
 
 function startVoiceSearch() {
     if (!initVoiceRecognition()) {
-        showToast(getTranslations(currentLang).voiceNotSupported, 'warning');
+        showToast(translations[currentLang].voiceNotSupported, 'warning');
         return;
     }
     
@@ -1425,7 +1328,7 @@ function startVoiceSearch() {
 
 function startVoiceChat() {
     if (!initVoiceRecognition()) {
-        showToast(getTranslations(currentLang).voiceNotSupported, 'warning');
+        showToast(translations[currentLang].voiceNotSupported, 'warning');
         return;
     }
     
@@ -1463,49 +1366,32 @@ function closeVoiceOverlay() {
 // Text-to-Speech Functions
 // ==========================================
 
-function getSpeechVoice(language) {
-    if (!('speechSynthesis' in window)) return null;
-
-    const voices = speechSynthesis.getVoices();
-    const normalizedLanguage = language.toLowerCase().replace('_', '-');
-    const baseLanguage = normalizedLanguage.split('-')[0];
-
-    return voices.find(voice => voice.lang.toLowerCase().replace('_', '-') === normalizedLanguage)
-        || voices.find(voice => voice.lang.toLowerCase().replace('_', '-').split('-')[0] === baseLanguage)
-        || null;
-}
-
-function createSpeechUtterance(text) {
-    const language = getSpeechLanguage();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voice = getSpeechVoice(language);
-
-    utterance.lang = language;
-    if (voice) {
-        utterance.voice = voice;
-    }
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-
-    return utterance;
-}
-
 function speakMessage(button) {
     if (!('speechSynthesis' in window)) {
-        showToast(getTranslations(currentLang).speakNotSupported, 'warning');
+        showToast(translations[currentLang].speakNotSupported, 'warning');
         return;
     }
     
     const messageContent = button.parentElement.querySelector('p');
     const text = messageContent.textContent;
     
-    speechSynthesis.speak(createSpeechUtterance(text));
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = speechLangCodes[currentLang] || 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    
+    speechSynthesis.speak(utterance);
 }
 
 function speakText(text) {
     if (!('speechSynthesis' in window)) return;
     
-    speechSynthesis.speak(createSpeechUtterance(text));
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = speechLangCodes[currentLang] || 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    
+    speechSynthesis.speak(utterance);
 }
 
 function toggleVoiceMode() {
@@ -1520,22 +1406,6 @@ function toggleVoiceMode() {
 // ==========================================
 // Chatbot Functions
 // ==========================================
-
-function formatWeatherContext() {
-    if (!weatherData || !forecastData?.list?.length) return 'No live weather data is available.';
-
-    const current = weatherData.weather?.[0];
-    const dailyForecasts = getDailyForecastSummaries().slice(0, 5);
-    const forecast = dailyForecasts.map(day => `${day.date.toDateString()}: ${day.low}-${day.high}°C, ${day.description}, rain chance ${day.rainChance}%`).join('\n');
-
-    return [
-        `Location: ${weatherData.name || currentCity}, ${weatherData.sys?.country || ''}`,
-        `Current: ${Math.round(weatherData.main.temp)}°C, feels like ${Math.round(weatherData.main.feels_like)}°C, ${current?.description || 'unknown conditions'}`,
-        `Humidity: ${weatherData.main.humidity}%, wind: ${Math.round((weatherData.wind?.speed || 0) * 3.6)} km/h`,
-        'Forecast:',
-        forecast
-    ].join('\n');
-}
 
 function toggleChatbot() {
     elements.chatbotWindow.classList.toggle('active');
@@ -1556,6 +1426,11 @@ async function sendChatMessage() {
     addChatMessage(message, 'user');
     elements.chatInput.value = '';
 
+    if (!OPENAI_API_KEY || OPENAI_API_KEY === 'your-openai-api-key') {
+        addChatMessage('The AI assistant is not configured. Add an OpenAI API key to config.js and try again.', 'bot');
+        return;
+    }
+
     if (!weatherData || !forecastData?.list?.length) {
         addChatMessage('Weather data is still loading. Please wait a moment and try again.', 'bot');
         return;
@@ -1565,53 +1440,43 @@ async function sendChatMessage() {
     elements.sendChatBtn.disabled = true;
     elements.chatInput.disabled = true;
     const loadingMessage = addChatMessage('Thinking', 'bot', true);
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), CHAT_REQUEST_TIMEOUT_MS);
 
     try {
-        const response = await fetch(CHAT_API_URL, {
+        const response = await fetch(OPENAI_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
             },
             body: JSON.stringify({
-                message,
-                weatherContext: formatWeatherContext()
-            }),
-            signal: controller.signal
+                model: window.WEATHERWISE_CONFIG?.openAiModel || 'gpt-3.5-turbo',
+                temperature: 0.4,
+                messages: [
+                    {
+                        role: 'system',
+                        content: `You are WeatherWise, a helpful weather assistant. Answer the user's question using the supplied live weather context. If the question is unrelated to weather, politely say you can only help with weather. Do not invent weather data. Respond in the user's language when possible. Keep answers concise.\n\nLive weather context:\n${formatWeatherContext()}`
+                    },
+                    { role: 'user', content: message }
+                ]
+            })
         });
 
-        let data;
-        try {
-            data = await response.json();
-        } catch {
-            throw new Error('invalid-response');
-        }
-
+        const data = await response.json();
         if (!response.ok) {
-            throw new Error(data.error || 'service-error');
+            throw new Error(data.error?.message || `OpenAI request failed (${response.status})`);
         }
 
-        const answer = data.answer?.trim();
-        if (!answer) throw new Error('invalid-response');
+        const answer = data.choices?.[0]?.message?.content?.trim();
+        if (!answer) throw new Error('OpenAI returned an empty response');
 
         loadingMessage.remove();
         addChatMessage(answer, 'bot');
         if (voiceMode) speakText(answer);
     } catch (error) {
+        console.error('Chatbot API error:', error);
         loadingMessage.remove();
-        const errorMessages = {
-            aborted: 'The AI assistant took too long to respond. Please try again.',
-            'invalid-response': 'The AI assistant returned an invalid response. Please try again.',
-            'rate-limited': 'The AI assistant is busy right now. Please wait a moment and try again.',
-            'invalid-api-key': 'The AI assistant is temporarily unavailable. Please try again later.',
-            'service-error': 'The AI assistant is temporarily unavailable. Please try again later.',
-            'network-error': 'I could not reach the AI assistant. Check your connection and try again.'
-        };
-        const errorCode = error.name === 'AbortError' ? 'aborted' : error.message;
-        addChatMessage(errorMessages[errorCode] || errorMessages['network-error'], 'bot');
+        addChatMessage('I could not reach the AI assistant right now. Please check your API configuration and try again.', 'bot');
     } finally {
-        clearTimeout(timeoutId);
         chatRequestInProgress = false;
         elements.sendChatBtn.disabled = false;
         elements.chatInput.disabled = false;
@@ -1668,7 +1533,7 @@ function getLangCode() {
 function estimateUVIndex(data) {
     const clouds = data.clouds.all;
     const hour = new Date().getHours();
-    const t = getTranslations(currentLang);
+    const t = translations[currentLang];
     
     // Base UV based on time of day
     let baseUV;

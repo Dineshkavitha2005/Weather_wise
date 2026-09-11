@@ -12,28 +12,27 @@
     }
 
     async function fetchWeatherData(lat, lon, options = {}) {
-        const { apiKey, language = 'en', baseUrl = 'https://api.openweathermap.org/data/2.5', fetchImpl = typeof fetch === 'function' ? fetch : null } = options;
-        if (!apiKey) throw createWeatherError('INVALID_API_KEY', 'OpenWeatherMap API key is missing.');
+        const { language = 'en', baseUrl = '/api/weather', fetchImpl = typeof fetch === 'function' ? fetch : null } = options;
         if (!fetchImpl) throw createWeatherError('NETWORK_ERROR', 'Fetch is not available.');
 
         const request = async path => {
             let response;
             try {
-                response = await fetchImpl(`${baseUrl}${path}`);
+                response = await fetchImpl(path);
             } catch (error) {
-                throw createWeatherError('NETWORK_ERROR', 'Unable to connect to OpenWeatherMap.');
+                throw createWeatherError('NETWORK_ERROR', 'Unable to connect to the weather service.');
             }
             const data = await response.json().catch(() => null);
             if (!response.ok || Number(data?.cod) >= 400) {
-                const code = response.status === 401 || Number(data?.cod) === 401 ? 'INVALID_API_KEY' : response.status === 404 || Number(data?.cod) === 404 ? 'CITY_NOT_FOUND' : 'API_ERROR';
+                const code = data?.error === 'INVALID_API_KEY' || response.status === 401 ? 'INVALID_API_KEY' : data?.error === 'CITY_NOT_FOUND' || response.status === 404 ? 'CITY_NOT_FOUND' : data?.error === 'RATE_LIMIT' || response.status === 429 ? 'RATE_LIMIT' : data?.error === 'TIMEOUT' || response.status === 504 ? 'TIMEOUT' : response.status >= 500 ? 'SERVER_ERROR' : 'API_ERROR';
                 throw createWeatherError(code, data?.message || 'OpenWeatherMap request failed.');
             }
             if (!data) throw createWeatherError('API_ERROR', 'OpenWeatherMap returned an invalid response.');
             return data;
         };
 
-        const query = `?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&appid=${encodeURIComponent(apiKey)}&units=metric&lang=${encodeURIComponent(language)}`;
-        const [current, forecast] = await Promise.all([request(`/weather${query}`), request(`/forecast${query}`)]);
+        const query = `lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&lang=${encodeURIComponent(language)}`;
+        const [current, forecast] = await Promise.all([request(`${baseUrl}?type=current&${query}`), request(`${baseUrl}?type=forecast&${query}`)]);
         return { current, forecast };
     }
 

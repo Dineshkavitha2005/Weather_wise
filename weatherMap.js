@@ -123,7 +123,7 @@ function initWeatherMap() {
     setupMapSearch();
     
     // Get user's location
-    locateMapUser();
+    getUserLocation();
     
     isMapInitialized = true;
 }
@@ -132,7 +132,7 @@ function initWeatherMap() {
 function updateBaseLayer() {
     if (!weatherMap) return;
     
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const isDark = document.body.classList.contains('dark-theme');
     const tileUrl = isDark ? MAP_CONFIG.tileProviders.dark : MAP_CONFIG.tileProviders.standard;
     
     if (currentLayer) {
@@ -177,7 +177,7 @@ function setWeatherLayer(layerType) {
 // Get translated layer name
 function getLayerName(layer) {
     if (typeof translations !== 'undefined' && typeof currentLang !== 'undefined') {
-        const t = getTranslations(currentLang);
+        const t = translations[currentLang];
         if (t && t[layer.translationKey]) {
             return t[layer.translationKey];
         }
@@ -363,10 +363,11 @@ function selectMapSuggestion(cityName, state, country) {
 // Search location on map
 async function searchLocation(query) {
     try {
-        const data = await fetchMapWeather(
+        const response = await fetch(
             `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=1&appid=${OWM_API_KEY}`
         );
-
+        const data = await response.json();
+        
         if (data && data.length > 0) {
             const { lat, lon, name, country } = data[0];
             
@@ -380,7 +381,7 @@ async function searchLocation(query) {
         }
     } catch (error) {
         console.error('Search error:', error);
-        showMapToast(getMapErrorMessage(error), 'error');
+        showMapToast('Search failed', 'error');
     }
 }
 
@@ -388,10 +389,11 @@ async function searchLocation(query) {
 async function addWeatherMarker(lat, lon, name, country) {
     try {
         // Get weather data
-        const weather = await fetchMapWeather(
+        const response = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OWM_API_KEY}`
         );
-
+        const weather = await response.json();
+        
         // Create custom icon
         const iconHtml = `
             <div class="weather-marker">
@@ -437,85 +439,37 @@ async function addWeatherMarker(lat, lon, name, country) {
         
     } catch (error) {
         console.error('Weather marker error:', error);
-        showMapToast(getMapErrorMessage(error), 'error');
     }
 }
 
-async function locateMapUser() {
-    try {
-        const position = await getUserLocation();
-        const { latitude, longitude } = position.coords;
-
-        // Get location name
-        const data = await fetchMapWeather(
-            `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${OWM_API_KEY}`
+// Get user's location
+function getUserLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+                
+                // Get location name
+                try {
+                    const response = await fetch(
+                        `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${OWM_API_KEY}`
+                    );
+                    const data = await response.json();
+                    
+                    if (data && data.length > 0) {
+                        const { name, country } = data[0];
+                        weatherMap.setView([latitude, longitude], 8);
+                        await addWeatherMarker(latitude, longitude, name, country);
+                    }
+                } catch (error) {
+                    console.error('Reverse geocoding error:', error);
+                }
+            },
+            (error) => {
+                console.log('Geolocation not available:', error.message);
+            }
         );
-
-        if (data && data.length > 0) {
-            const { name, country } = data[0];
-            weatherMap.setView([latitude, longitude], 8);
-            await addWeatherMarker(latitude, longitude, name, country);
-        }
-    } catch (error) {
-        if (error?.message === 'Geolocation is not available.' || error?.code === 1 || error?.code === 2 || error?.code === 3) {
-            console.log('Geolocation not available:', error.message);
-        } else {
-            console.error('Reverse geocoding error:', error);
-            showMapToast(getMapErrorMessage(error), 'error');
-        }
     }
-}
-
-async function fetchMapWeather(url) {
-    if (!OWM_API_KEY) {
-        const error = new Error('OpenWeatherMap API key is missing.');
-        error.code = 'INVALID_API_KEY';
-        throw error;
-    }
-
-    let response;
-    try {
-        response = await fetch(url);
-    } catch (error) {
-        const networkError = new Error('Unable to connect to OpenWeatherMap.');
-        networkError.code = 'NETWORK_ERROR';
-        throw networkError;
-    }
-
-    let data = null;
-    try {
-        data = await response.json();
-    } catch (error) {
-        data = null;
-    }
-
-    if (!response.ok || (data && Number(data.cod) >= 400)) {
-        const apiError = new Error(data?.message || 'OpenWeatherMap is temporarily unavailable.');
-        apiError.code = response.status === 401 || Number(data?.cod) === 401
-            ? 'INVALID_API_KEY'
-            : response.status === 404 || Number(data?.cod) === 404
-                ? 'CITY_NOT_FOUND'
-                : 'API_ERROR';
-        throw apiError;
-    }
-
-    if (!data) {
-        const apiError = new Error('OpenWeatherMap returned an invalid response.');
-        apiError.code = 'API_ERROR';
-        throw apiError;
-    }
-
-    return data;
-}
-
-function getMapErrorMessage(error) {
-    const messages = {
-        CITY_NOT_FOUND: 'Location not found. Check the spelling and try again.',
-        INVALID_API_KEY: 'Map weather service setup is incomplete. Please check the OpenWeatherMap API key.',
-        NETWORK_ERROR: 'Map weather data could not be loaded. Check your connection and try again.',
-        API_ERROR: 'Map weather data is temporarily unavailable. Please try again shortly.'
-    };
-    return messages[error.code] || messages.API_ERROR;
 }
 
 // Show map toast
@@ -550,7 +504,7 @@ function toggleMapFullscreen() {
 // Recenter map
 function recenterMap() {
     if (weatherMap) {
-        locateMapUser();
+        getUserLocation();
     }
 }
 
@@ -577,15 +531,15 @@ function changeMapStyle(style) {
 // Listen for theme changes
 const themeObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'data-theme') {
+        if (mutation.attributeName === 'class') {
             updateBaseLayer();
         }
     });
 });
 
-// Start observing the same element and attribute used by the app theme.
+// Start observing body for theme changes
 document.addEventListener('DOMContentLoaded', () => {
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    themeObserver.observe(document.body, { attributes: true });
 });
 
 // Export functions

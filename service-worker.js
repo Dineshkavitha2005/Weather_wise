@@ -8,6 +8,7 @@ const APP_SHELL = [
     './auth.css',
     './app.js',
     './auth.js',
+    './auth-state.js',
     './cities.js',
     './config.js',
     './translations.js',
@@ -42,6 +43,8 @@ self.addEventListener('fetch', event => {
         event.respondWith(networkFirst(event.request, './index.html'));
         return;
     }
+
+    if (requestUrl.origin === self.location.origin && requestUrl.pathname.startsWith('/api/')) return;
 
     if (requestUrl.origin === self.location.origin) {
         event.respondWith(cacheFirst(event.request));

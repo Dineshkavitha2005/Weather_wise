@@ -4,10 +4,14 @@ const currentWeather = { name: 'London', sys: { country: 'GB', sunrise: 0, sunse
 const forecast = { list: Array.from({ length: 8 }, (_, index) => ({ dt: 1767261600 + index * 10800, main: { temp: 15 + index }, pop: 0.1, weather: [{ icon: '01d', description: 'clear sky', main: 'Clear', id: 800 }] })) };
 
 async function mockWeather(page) {
-    await page.route('**/config.js', route => route.fulfill({ contentType: 'application/javascript', body: 'window.WEATHERWISE_CONFIG = { openWeatherApiKey: "e2e-key" };' }));
-    await page.route('https://api.openweathermap.org/data/2.5/weather**', route => route.fulfill({ json: currentWeather }));
-    await page.route('https://api.openweathermap.org/data/2.5/forecast**', route => route.fulfill({ json: forecast }));
-    await page.route('https://api.openweathermap.org/geo/1.0/direct**', route => route.fulfill({ json: [{ lat: 40.7, lon: -74, name: 'New York', country: 'US' }] }));
+    await page.route('**/api/weather**', async route => {
+        const url = new URL(route.request().url());
+        const type = url.searchParams.get('type');
+        if (type === 'current') return route.fulfill({ json: currentWeather });
+        if (type === 'forecast') return route.fulfill({ json: forecast });
+        if (type === 'geocode') return route.fulfill({ json: [{ lat: 40.7, lon: -74, name: 'New York', country: 'US' }] });
+        return route.fulfill({ status: 404, json: { error: 'not-found' } });
+    });
     await page.route('**/api/chat', async route => {
         const request = route.request();
         const payload = request.postDataJSON();

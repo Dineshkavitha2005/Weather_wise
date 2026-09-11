@@ -1,7 +1,9 @@
 window.WEATHERWISE_CONFIG = {
     openWeatherApiKey: 'your-openweathermap-api-key',
+    openAiApiKey: 'your-openai-api-key',
+    openAiModel: 'gpt-3.5-turbo',
     firebase: {
-        apiKey: 'your-firebase-api-key',
+        apiKey: 'your-firebase-web-api-key',
         authDomain: 'your-project.firebaseapp.com',
         projectId: 'your-project-id',
         storageBucket: 'your-project.firebasestorage.app',

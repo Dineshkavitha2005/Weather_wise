@@ -9,23 +9,32 @@ const strengthBar = document.getElementById('strengthBar');
 const toastContainer = document.getElementById('toastContainer');
 
 let firebaseAuth;
+let authState = WeatherWiseAuthState.initialState;
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
         const firebaseConfig = window.WEATHERWISE_CONFIG?.firebase;
-        if (!firebaseConfig || firebaseConfig.apiKey === 'your-firebase-api-key') {
+        if (!isFirebaseConfigUsable(firebaseConfig)) {
             throw new Error('Firebase is not configured. Add your Firebase web app settings to config.js.');
         }
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         firebaseAuth = firebase.auth();
         setupEventListeners();
-        firebaseAuth.onAuthStateChanged(user => {
-            if (user) window.location.href = 'index.html';
+        firebaseAuth.onAuthStateChanged(handleAuthStateChanged, () => {
+            authState = WeatherWiseAuthState.reduceAuthState(authState, { type: 'AUTH_ERROR' });
+            showToast(getAuthErrorMessage({ code: 'auth/network-request-failed' }), 'error');
         });
     } catch (error) {
-        showToast(error.message, 'error');
+        showToast('Authentication is temporarily unavailable. Please try again later.', 'error');
     }
 });
+
+function handleAuthStateChanged(user) {
+    authState = WeatherWiseAuthState.reduceAuthState(authState, user
+        ? { type: 'AUTHENTICATED', user }
+        : { type: 'UNAUTHENTICATED' });
+    if (WeatherWiseAuthState.isAuthenticated(authState)) window.location.href = 'index.html';
+}
 
 function setupEventListeners() {
     authTabs.forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
@@ -95,7 +104,7 @@ async function handleLogin(e) {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
     const rememberMe = document.getElementById('rememberMe').checked;
-    if (!email || !password) return showToast('Please fill in all fields', 'error');
+    if (!isValidEmail(email) || !password) return showToast('Enter a valid email address and password.', 'error');
     const submitBtn = setLoading(loginForm, 'Logging in...');
     try {
         await firebaseAuth.setPersistence(rememberMe ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION);
@@ -105,6 +114,8 @@ async function handleLogin(e) {
     } catch (error) {
         showToast(getAuthErrorMessage(error), 'error');
         restoreButton(submitBtn);
+    } finally {
+        document.getElementById('loginPassword').value = '';
     }
 }
 
@@ -116,9 +127,9 @@ async function handleSignup(e) {
     const password = document.getElementById('signupPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const agreeTerms = document.getElementById('agreeTerms').checked;
-    if (!firstName || !lastName || !email || !password || !confirmPassword) return showToast('Please fill in all required fields', 'error');
+    if (!firstName || !lastName || !isValidEmail(email) || !password || !confirmPassword) return showToast('Complete all required fields with a valid email address.', 'error');
     if (password !== confirmPassword) return showToast('Passwords do not match', 'error');
-    if (password.length < 8) return showToast('Password must be at least 8 characters', 'error');
+    if (!isStrongPassword(password)) return showToast('Choose a stronger password with at least 8 characters, including uppercase, lowercase, and a number.', 'error');
     if (!agreeTerms) return showToast('Please agree to the Terms of Service', 'error');
     const submitBtn = setLoading(signupForm, 'Creating account...');
     try {
@@ -130,13 +141,15 @@ async function handleSignup(e) {
     } catch (error) {
         showToast(getAuthErrorMessage(error), 'error');
         restoreButton(submitBtn);
+    } finally {
+        clearSignupPasswords();
     }
 }
 
 async function handleForgotPassword(e) {
     e.preventDefault();
     const email = document.getElementById('forgotEmail').value.trim();
-    if (!email) return showToast('Please enter your email address', 'error');
+    if (!isValidEmail(email)) return showToast('Enter a valid email address.', 'error');
     const submitBtn = setLoading(forgotForm, 'Sending...');
     try {
         await firebaseAuth.sendPasswordResetEmail(email);
@@ -144,6 +157,8 @@ async function handleForgotPassword(e) {
     } catch (error) {
         showToast(getAuthErrorMessage(error), 'error');
         restoreButton(submitBtn);
+    } finally {
+        document.getElementById('forgotEmail').value = '';
     }
 }
 
@@ -165,16 +180,44 @@ function restoreButton(button) {
 }
 
 function getAuthErrorMessage(error) {
+    const code = typeof error?.code === 'string' ? error.code : '';
+    const locale = (document.documentElement.lang || navigator.language || 'en').split('-')[0];
     const messages = {
-        'auth/invalid-credential': 'Invalid email or password.',
-        'auth/user-not-found': 'Invalid email or password.',
-        'auth/wrong-password': 'Invalid email or password.',
-        'auth/email-already-in-use': 'An account with this email already exists.',
-        'auth/weak-password': 'Choose a stronger password.',
-        'auth/invalid-email': 'Enter a valid email address.',
-        'auth/too-many-requests': 'Too many attempts. Please try again later.'
+        en: { invalid: 'Invalid email or password.', exists: 'An account with this email already exists.', weak: 'Choose a stronger password.', email: 'Enter a valid email address.', many: 'Too many attempts. Please try again later.', network: 'Network error. Check your connection and try again.', disabled: 'This account has been disabled. Contact support.', unavailable: 'Authentication is temporarily unavailable. Please try again later.' },
+        es: { invalid: 'El correo o la contraseña no son válidos.', exists: 'Ya existe una cuenta con este correo.', weak: 'Elige una contraseña más segura.', email: 'Introduce un correo válido.', many: 'Demasiados intentos. Inténtalo más tarde.', network: 'Error de red. Comprueba tu conexión e inténtalo de nuevo.', disabled: 'Esta cuenta está deshabilitada. Contacta con soporte.', unavailable: 'La autenticación no está disponible temporalmente. Inténtalo más tarde.' }
     };
-    return messages[error.code] || 'Authentication failed. Please try again.';
+    const text = messages[locale] || messages.en;
+    if (code === 'auth/invalid-email') return text.email;
+    if (code === 'auth/email-already-in-use') return text.exists;
+    if (code === 'auth/weak-password') return text.weak;
+    if (code === 'auth/too-many-requests') return text.many;
+    if (code === 'auth/network-request-failed') return text.network;
+    if (code === 'auth/user-disabled') return text.disabled;
+    if (['auth/invalid-credential', 'auth/user-not-found', 'auth/wrong-password'].includes(code)) return text.invalid;
+    return text.unavailable;
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isFirebaseConfigUsable(config) {
+    const requiredKeys = ['apiKey', 'authDomain', 'projectId', 'appId'];
+    return Boolean(config) && requiredKeys.every(key => {
+        const value = config[key];
+        return typeof value === 'string' && value.trim() && !value.startsWith('your-');
+    });
+}
+
+function isStrongPassword(password) {
+    return password.length >= 8 && /[a-z]/.test(password) && /[A-Z]/.test(password) && /\d/.test(password);
+}
+
+function clearSignupPasswords() {
+    ['signupPassword', 'confirmPassword'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) input.value = '';
+    });
 }
 
 function showSuccess(title, message) {
@@ -193,7 +236,11 @@ function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
-    toast.innerHTML = `<i class="fas ${icons[type]}"></i><span>${message}</span>`;
+    const icon = document.createElement('i');
+    icon.className = `fas ${icons[type]}`;
+    const text = document.createElement('span');
+    text.textContent = message;
+    toast.replaceChildren(icon, text);
     toastContainer.appendChild(toast);
     setTimeout(() => {
         toast.style.opacity = '0';

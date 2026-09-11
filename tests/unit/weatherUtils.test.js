@@ -18,12 +18,12 @@ describe('fetchWeatherData', () => {
     it('fetches current conditions and forecast with shared query parameters', async () => {
         const requests = [];
         const fetchImpl = async url => { requests.push(url); return { ok: true, status: 200, json: async () => ({ list: [] }) }; };
-        const result = await fetchWeatherData(51.5, -0.1, { apiKey: 'test-key', fetchImpl });
+        const result = await fetchWeatherData(51.5, -0.1, { fetchImpl });
         expect(result.current).toEqual({ list: [] });
         expect(result.forecast).toEqual({ list: [] });
         expect(requests).toHaveLength(2);
         expect(requests[0]).toContain('lat=51.5');
-        expect(requests[0]).toContain('appid=test-key');
+        expect(requests[0]).toContain('type=current');
     });
 });
 
