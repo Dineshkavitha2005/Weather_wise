@@ -437,5 +437,3 @@ If you find Weather Wise helpful:
 ---
 
 **Made with ❤️ by [Dineshkavitha2005](https://github.com/Dineshkavitha2005)**
-
-Last Updated: September 2024
